@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.CustomerLoginLogMapper">
+    <!-- 结果映射 -->
+    <resultMap id="CustomerLoginLogResultMap" type="CustomerLoginLog">
+        <id column="login_log_id" property="loginLogId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+        <result column="logout_time" property="logoutTime" jdbcType="TIMESTAMP" />
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+        <result column="login_device" property="loginDevice" jdbcType="VARCHAR" />
+        <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
+        <result column="logout_type" property="logoutType" jdbcType="VARCHAR" />
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="CustomerLoginLog" useGeneratedKeys="true" keyProperty="loginLogId">
+        INSERT INTO customer_login_log (
+            user_id,
+            login_time,
+            logout_time,
+            login_ip,
+            login_device,
+            login_status,
+            logout_type,
+            created_at,
+            updated_at
+        ) VALUES (
+            #{userId,jdbcType=VARCHAR},
+            #{loginTime,jdbcType=TIMESTAMP},
+            #{logoutTime,jdbcType=TIMESTAMP},
+            #{loginIp,jdbcType=VARCHAR},
+            #{loginDevice,jdbcType=VARCHAR},
+            #{loginStatus,jdbcType=TINYINT},
+            #{logoutType,jdbcType=VARCHAR},
+            #{createdAt,jdbcType=TIMESTAMP},
+            #{updatedAt,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM customer_login_log WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="CustomerLoginLog">
+        UPDATE customer_login_log
+        <set>
+            <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+            <if test="loginTime != null">login_time = #{loginTime,jdbcType=TIMESTAMP},</if>
+            <if test="logoutTime != null">logout_time = #{logoutTime,jdbcType=TIMESTAMP},</if>
+            <if test="loginIp != null">login_ip = #{loginIp,jdbcType=VARCHAR},</if>
+            <if test="loginDevice != null">login_device = #{loginDevice,jdbcType=VARCHAR},</if>
+            <if test="loginStatus != null">login_status = #{loginStatus,jdbcType=TINYINT},</if>
+            <if test="logoutType != null">logout_type = #{logoutType,jdbcType=VARCHAR},</if>
+            <if test="createdAt != null">created_at = #{createdAt,jdbcType=TIMESTAMP},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt,jdbcType=TIMESTAMP},</if>
+        </set>
+        WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="CustomerLoginLogResultMap">
+        SELECT * FROM customer_login_log WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="CustomerLoginLogResultMap">
+        SELECT * FROM customer_login_log
+    </select>
+
+    <!-- 根据用户ID查询登录日志列表 -->
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="CustomerLoginLogResultMap">
+        SELECT * FROM customer_login_log
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+        ORDER BY login_time DESC
+    </select>
+
+    <!-- 根据用户ID查询最新的登录日志 -->
+    <select id="selectLatestByUserId" parameterType="java.lang.String" resultMap="CustomerLoginLogResultMap">
+        SELECT * FROM customer_login_log
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+        ORDER BY login_time DESC
+        LIMIT 1
+    </select>
+</mapper>
