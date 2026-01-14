@@ -3,7 +3,7 @@
 <mapper namespace="com.qyt.qytbackend.mapper.CustomerInfoMapper">
     <!-- 结果映射 -->
     <resultMap id="CustomerInfoResultMap" type="CustomerInfo">
-        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="id" property="id" jdbcType="INTEGER" />
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -16,10 +16,15 @@
         <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
         <result column="status" property="status" jdbcType="TINYINT" />
         <result column="member_level" property="memberLevel" jdbcType="INTEGER" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDeleted" jdbcType="TINYINT" />
     </resultMap>
 
     <!-- 插入语句 -->
-    <insert id="insert" parameterType="CustomerInfo" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insert" parameterType="CustomerInfo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO customer_info (
             username,
             password,
@@ -32,7 +37,12 @@
             login_status,
             last_login_time,
             status,
-            member_level
+            member_level,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
         ) VALUES (
             #{username,jdbcType=VARCHAR},
             #{password,jdbcType=VARCHAR},
@@ -45,14 +55,19 @@
             #{loginStatus,jdbcType=TINYINT},
             #{lastLoginTime,jdbcType=TIMESTAMP},
             #{status,jdbcType=TINYINT},
-            #{memberLevel,jdbcType=INTEGER}
+            #{memberLevel,jdbcType=INTEGER},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDeleted,jdbcType=TINYINT}
         )
     </insert>
 
-    <!-- 删除语句 -->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        DELETE FROM customer_info WHERE user_id = #{userId,jdbcType=INTEGER}
-    </delete>
+    <!-- 删除语句（逻辑删除） -->
+    <update id="deleteById" parameterType="java.lang.Integer">
+        UPDATE customer_info SET is_delete = 1 WHERE id = #{id,jdbcType=INTEGER}
+    </update>
 
     <!-- 更新语句 -->
     <update id="update" parameterType="CustomerInfo">
@@ -70,32 +85,37 @@
             <if test="lastLoginTime != null">last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},</if>
             <if test="status != null">status = #{status,jdbcType=TINYINT},</if>
             <if test="memberLevel != null">member_level = #{memberLevel,jdbcType=INTEGER},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDeleted != null">is_delete = #{isDeleted,jdbcType=TINYINT},</if>
         </set>
-        WHERE user_id = #{userId,jdbcType=INTEGER}
+        WHERE id = #{id,jdbcType=INTEGER}
     </update>
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="CustomerInfoResultMap">
-        SELECT * FROM customer_info WHERE user_id = #{userId,jdbcType=INTEGER}
+        SELECT * FROM customer_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
-    <!-- 查询所有 -->
+    <!-- 查询所有（排除已删除数据） -->
     <select id="selectAll" resultMap="CustomerInfoResultMap">
-        SELECT * FROM customer_info
+        SELECT * FROM customer_info WHERE is_delete = 0
     </select>
 
     <!-- 根据用户名查询 -->
     <select id="selectByUsername" parameterType="java.lang.String" resultMap="CustomerInfoResultMap">
-        SELECT * FROM customer_info WHERE username = #{username,jdbcType=VARCHAR}
+        SELECT * FROM customer_info WHERE username = #{username,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据手机号查询 -->
     <select id="selectByPhone" parameterType="java.lang.String" resultMap="CustomerInfoResultMap">
-        SELECT * FROM customer_info WHERE phone = #{phone,jdbcType=VARCHAR}
+        SELECT * FROM customer_info WHERE phone = #{phone,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据邮箱查询 -->
     <select id="selectByEmail" parameterType="java.lang.String" resultMap="CustomerInfoResultMap">
-        SELECT * FROM customer_info WHERE email = #{email,jdbcType=VARCHAR}
+        SELECT * FROM customer_info WHERE email = #{email,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 </mapper>

@@ -23,10 +23,10 @@ public interface CustomerInfoMapper {
     /**
      * 根据ID删除客户信息
      *
-     * @param userId 主键ID
+     * @param id 主键ID
      * @return 影响行数
      */
-    int deleteById(@Param("userId") Integer userId);
+    int deleteById(@Param("id") Long id);
 
     /**
      * 更新客户信息
@@ -39,10 +39,10 @@ public interface CustomerInfoMapper {
     /**
      * 根据ID查询客户信息
      *
-     * @param userId 主键ID
+     * @param id 主键ID
      * @return 客户信息实体
      */
-    CustomerInfo selectById(@Param("userId") Integer userId);
+    CustomerInfo selectById(@Param("id") Long id);
 
     /**
      * 查询所有客户信息

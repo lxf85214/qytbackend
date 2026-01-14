@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  * 客户信息表实体类
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class CustomerInfo extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -16,7 +17,7 @@ public class CustomerInfo extends BaseEntity implements Serializable {
     /**
      * 用户唯一标识
      */
-    private Integer userId;
+    private Long id;
     
     /**
      * 用户名
@@ -77,4 +78,14 @@ public class CustomerInfo extends BaseEntity implements Serializable {
      * 会员等级（0-普通，1-白银，2-黄金等）
      */
     private Integer memberLevel;
+    
+    /**
+     * 创建人
+     */
+    private String createPin;
+    
+    /**
+     * 更新人
+     */
+    private String updatePin;
 }

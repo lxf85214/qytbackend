@@ -3,10 +3,10 @@ package com.qyt.qytbackend.controller;
 import com.qyt.qytbackend.common.result.Result;
 import com.qyt.qytbackend.entity.CustomerInfo;
 import com.qyt.qytbackend.entity.CustomerLoginLog;
-import com.qyt.qytbackend.entity.UserVerificationCode;
+import com.qyt.qytbackend.entity.CustomerVerificationCode;
 import com.qyt.qytbackend.mapper.CustomerInfoMapper;
 import com.qyt.qytbackend.mapper.CustomerLoginLogMapper;
-import com.qyt.qytbackend.mapper.UserVerificationCodeMapper;
+import com.qyt.qytbackend.mapper.CustomerVerificationCodeMapper;
 import com.qyt.qytbackend.rpc.SmsRpc;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,7 +42,7 @@ public class LoginController extends BaseController {
     private SmsRpc smsRpc;
 
     @Autowired
-    private UserVerificationCodeMapper userVerificationCodeMapper;
+    private CustomerVerificationCodeMapper customerVerificationCodeMapper;
 
     @Autowired
     private CustomerInfoMapper customerInfoMapper;
@@ -85,16 +85,16 @@ public class LoginController extends BaseController {
         }
 
         // 保存验证码到数据库
-        UserVerificationCode verificationCode = new UserVerificationCode();
+        CustomerVerificationCode verificationCode = new CustomerVerificationCode();
         verificationCode.setPhoneNumber(phone);
         verificationCode.setVerificationCode(code);
         verificationCode.setCreateTime(LocalDateTime.now());
-        verificationCode.setCreateBy("system");
+        verificationCode.setCreatePin("system");
         verificationCode.setUpdateTime(LocalDateTime.now());
-        verificationCode.setUpdateBy("system");
-        verificationCode.setIsDelete(0);
+        verificationCode.setUpdatePin("system");
+        verificationCode.setIsDeleted(0);
 
-        userVerificationCodeMapper.insert(verificationCode);
+        customerVerificationCodeMapper.insert(verificationCode);
 
         return Result.success("验证码发送成功");
     }
@@ -118,7 +118,7 @@ public class LoginController extends BaseController {
         }
 
         // 校验验证码
-        UserVerificationCode latestCode = userVerificationCodeMapper.selectLatestByPhoneNumber(phone);
+        CustomerVerificationCode latestCode = customerVerificationCodeMapper.selectLatestByPhoneNumber(phone);
         if (latestCode == null) {
             return Result.badRequest("验证码已失效，请重新获取验证码");
         }
@@ -137,14 +137,16 @@ public class LoginController extends BaseController {
 
         // 查询用户是否存在
         CustomerInfo customerInfo = customerInfoMapper.selectByPhone(phone);
-        Integer userId;
+        Long userId;
 
         if (customerInfo != null) {
             // 用户存在，更新登录状态
             customerInfo.setLoginStatus(1);
             customerInfo.setLastLoginTime(now);
+            customerInfo.setUpdatePin("system");
+            customerInfo.setUpdateTime(now);
             customerInfoMapper.update(customerInfo);
-            userId = customerInfo.getUserId();
+            userId = customerInfo.getId();
         } else {
             // 用户不存在，创建新用户
             customerInfo = new CustomerInfo();
@@ -154,19 +156,27 @@ public class LoginController extends BaseController {
             customerInfo.setRegisterTime(now);
             customerInfo.setStatus(1); // 正常状态
             customerInfo.setMemberLevel(0); // 普通会员
+            customerInfo.setCreatePin("system");
+            customerInfo.setCreateTime(now);
+            customerInfo.setUpdatePin("system");
+            customerInfo.setUpdateTime(now);
+            customerInfo.setIsDeleted(0); // 未删除
             customerInfoMapper.insert(customerInfo);
-            userId = customerInfo.getUserId();
+            userId = customerInfo.getId();
         }
 
         // 插入登录日志
         CustomerLoginLog loginLog = new CustomerLoginLog();
-        loginLog.setUserId(String.valueOf(userId));
+        loginLog.setUserId(userId);
         loginLog.setLoginTime(now);
         loginLog.setLoginIp("127.0.0.1"); // 实际项目中应从请求中获取真实IP
         loginLog.setLoginDevice("unknown"); // 实际项目中应从请求头中获取设备信息
         loginLog.setLoginStatus(1); // 1表示登录成功
-        loginLog.setCreatedAt(now);
-        loginLog.setUpdatedAt(now);
+        loginLog.setCreatePin("system");
+        loginLog.setCreateTime(now);
+        loginLog.setUpdatePin("system");
+        loginLog.setUpdateTime(now);
+        loginLog.setIsDeleted(0); // 未删除
         customerLoginLogMapper.insert(loginLog);
 
         // 返回登录成功结果
@@ -187,7 +197,7 @@ public class LoginController extends BaseController {
     })
     @PostMapping("/logout")
     public Result<String> logout(@Parameter(description = "登出请求", required = true, schema = @Schema(implementation = LogoutRequest.class)) @RequestBody LogoutRequest request) {
-        Integer userId = request.getUserId();
+        Long userId = request.getUserId();
 
         // 校验用户是否存在
         CustomerInfo customerInfo = customerInfoMapper.selectById(userId);
@@ -197,16 +207,19 @@ public class LoginController extends BaseController {
 
         // 更新登录状态为已登出
         customerInfo.setLoginStatus(0);
+        customerInfo.setUpdatePin("system");
+        customerInfo.setUpdateTime(LocalDateTime.now());
         customerInfoMapper.update(customerInfo);
 
         // 查询用户最新的登录成功日志
-        CustomerLoginLog latestLoginLog = customerLoginLogMapper.selectLatestByUserId(String.valueOf(userId));
+        CustomerLoginLog latestLoginLog = customerLoginLogMapper.selectLatestByUserId(userId);
         if (latestLoginLog != null) {
             // 更新登出时间和登录状态
             latestLoginLog.setLogoutTime(LocalDateTime.now());
             latestLoginLog.setLoginStatus(0); // 0表示已登出
             latestLoginLog.setLogoutType("主动登出");
-            latestLoginLog.setUpdatedAt(LocalDateTime.now());
+            latestLoginLog.setUpdatePin("system");
+            latestLoginLog.setUpdateTime(LocalDateTime.now());
             customerLoginLogMapper.update(latestLoginLog);
         }
 
@@ -277,15 +290,15 @@ public class LoginController extends BaseController {
     @Schema(name = "LoginResponse", description = "登录响应")
     public static class LoginResponse {
         @Schema(description = "用户ID", example = "1")
-        private Integer userId;
+        private Long userId;
         @Schema(description = "登录状态", example = "true")
         private boolean loginStatus;
 
-        public Integer getUserId() {
+        public Long getUserId() {
             return userId;
         }
 
-        public void setUserId(Integer userId) {
+        public void setUserId(Long userId) {
             this.userId = userId;
         }
 
@@ -301,13 +314,13 @@ public class LoginController extends BaseController {
     @Schema(name = "LogoutRequest", description = "登出请求")
     public static class LogoutRequest {
         @Schema(description = "用户ID", example = "1", required = true)
-        private Integer userId;
+        private Long userId;
 
-        public Integer getUserId() {
+        public Long getUserId() {
             return userId;
         }
 
-        public void setUserId(Integer userId) {
+        public void setUserId(Long userId) {
             this.userId = userId;
         }
     }

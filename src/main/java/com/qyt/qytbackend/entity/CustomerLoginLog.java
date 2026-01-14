@@ -9,19 +9,20 @@ import java.time.LocalDateTime;
  * 用户登录日志表实体类
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class CustomerLoginLog extends BaseEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
     /**
-     * 登录日志ID，自增主键
+     * 日志ID，自增主键
      */
-    private Integer loginLogId;
+    private Long id;
     
     /**
      * 用户ID，关联用户表
      */
-    private String userId;
+    private Long userId;
     
     /**
      * 登录时间，格式：YYYY-MM-DD HH:MM:SS
@@ -54,12 +55,12 @@ public class CustomerLoginLog extends BaseEntity implements Serializable {
     private String logoutType;
     
     /**
-     * 记录创建时间
+     * 创建人
      */
-    private LocalDateTime createdAt;
+    private String createPin;
     
     /**
-     * 记录更新时间
+     * 更新人
      */
-    private LocalDateTime updatedAt;
+    private String updatePin;
 }

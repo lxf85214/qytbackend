@@ -3,20 +3,23 @@
 <mapper namespace="com.qyt.qytbackend.mapper.CustomerLoginLogMapper">
     <!-- 结果映射 -->
     <resultMap id="CustomerLoginLogResultMap" type="CustomerLoginLog">
-        <id column="login_log_id" property="loginLogId" jdbcType="INTEGER" />
-        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
         <result column="logout_time" property="logoutTime" jdbcType="TIMESTAMP" />
         <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
         <result column="login_device" property="loginDevice" jdbcType="VARCHAR" />
         <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
         <result column="logout_type" property="logoutType" jdbcType="VARCHAR" />
-        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
-        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDeleted" jdbcType="TINYINT" />
     </resultMap>
 
     <!-- 插入语句 -->
-    <insert id="insert" parameterType="CustomerLoginLog" useGeneratedKeys="true" keyProperty="loginLogId">
+    <insert id="insert" parameterType="CustomerLoginLog" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO customer_login_log (
             user_id,
             login_time,
@@ -25,64 +28,73 @@
             login_device,
             login_status,
             logout_type,
-            created_at,
-            updated_at
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
         ) VALUES (
-            #{userId,jdbcType=VARCHAR},
+            #{userId,jdbcType=BIGINT},
             #{loginTime,jdbcType=TIMESTAMP},
             #{logoutTime,jdbcType=TIMESTAMP},
             #{loginIp,jdbcType=VARCHAR},
             #{loginDevice,jdbcType=VARCHAR},
             #{loginStatus,jdbcType=TINYINT},
             #{logoutType,jdbcType=VARCHAR},
-            #{createdAt,jdbcType=TIMESTAMP},
-            #{updatedAt,jdbcType=TIMESTAMP}
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDeleted,jdbcType=TINYINT}
         )
     </insert>
 
-    <!-- 删除语句 -->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        DELETE FROM customer_login_log WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
-    </delete>
+    <!-- 删除语句（逻辑删除） -->
+    <update id="deleteById" parameterType="java.lang.Integer">
+        UPDATE customer_login_log SET is_delete = 1 WHERE id = #{id,jdbcType=INTEGER}
+    </update>
 
     <!-- 更新语句 -->
     <update id="update" parameterType="CustomerLoginLog">
         UPDATE customer_login_log
         <set>
-            <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+            <if test="userId != null">user_id = #{userId,jdbcType=BIGINT},</if>
             <if test="loginTime != null">login_time = #{loginTime,jdbcType=TIMESTAMP},</if>
             <if test="logoutTime != null">logout_time = #{logoutTime,jdbcType=TIMESTAMP},</if>
             <if test="loginIp != null">login_ip = #{loginIp,jdbcType=VARCHAR},</if>
             <if test="loginDevice != null">login_device = #{loginDevice,jdbcType=VARCHAR},</if>
             <if test="loginStatus != null">login_status = #{loginStatus,jdbcType=TINYINT},</if>
             <if test="logoutType != null">logout_type = #{logoutType,jdbcType=VARCHAR},</if>
-            <if test="createdAt != null">created_at = #{createdAt,jdbcType=TIMESTAMP},</if>
-            <if test="updatedAt != null">updated_at = #{updatedAt,jdbcType=TIMESTAMP},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDeleted != null">is_delete = #{isDeleted,jdbcType=TINYINT},</if>
         </set>
-        WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
+        WHERE id = #{id,jdbcType=INTEGER}
     </update>
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="CustomerLoginLogResultMap">
-        SELECT * FROM customer_login_log WHERE login_log_id = #{loginLogId,jdbcType=INTEGER}
+        SELECT * FROM customer_login_log WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
-    <!-- 查询所有 -->
+    <!-- 查询所有（排除已删除数据） -->
     <select id="selectAll" resultMap="CustomerLoginLogResultMap">
-        SELECT * FROM customer_login_log
+        SELECT * FROM customer_login_log WHERE is_delete = 0
     </select>
 
     <!-- 根据用户ID查询登录日志列表 -->
-    <select id="selectByUserId" parameterType="java.lang.String" resultMap="CustomerLoginLogResultMap">
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="CustomerLoginLogResultMap">
         SELECT * FROM customer_login_log
-        WHERE user_id = #{userId,jdbcType=VARCHAR}
+        WHERE user_id = #{userId,jdbcType=BIGINT} AND is_delete = 0
         ORDER BY login_time DESC
     </select>
 
     <!-- 根据用户ID查询最新的登录日志 -->
-    <select id="selectLatestByUserId" parameterType="java.lang.String" resultMap="CustomerLoginLogResultMap">
+    <select id="selectLatestByUserId" parameterType="java.lang.Long" resultMap="CustomerLoginLogResultMap">
         SELECT * FROM customer_login_log
-        WHERE user_id = #{userId,jdbcType=VARCHAR}
+        WHERE user_id = #{userId,jdbcType=BIGINT} AND is_delete = 0
         ORDER BY login_time DESC
         LIMIT 1
     </select>

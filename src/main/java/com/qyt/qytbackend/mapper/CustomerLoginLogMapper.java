@@ -23,10 +23,10 @@ public interface CustomerLoginLogMapper {
     /**
      * 根据ID删除登录日志
      *
-     * @param loginLogId 主键ID
+     * @param id 主键ID
      * @return 影响行数
      */
-    int deleteById(@Param("loginLogId") Integer loginLogId);
+    int deleteById(@Param("id") Integer id);
 
     /**
      * 更新登录日志
@@ -39,10 +39,10 @@ public interface CustomerLoginLogMapper {
     /**
      * 根据ID查询登录日志
      *
-     * @param loginLogId 主键ID
+     * @param id 主键ID
      * @return 登录日志实体
      */
-    CustomerLoginLog selectById(@Param("loginLogId") Integer loginLogId);
+    CustomerLoginLog selectById(@Param("id") Integer id);
 
     /**
      * 查询所有登录日志
@@ -57,7 +57,7 @@ public interface CustomerLoginLogMapper {
      * @param userId 用户ID
      * @return 登录日志列表
      */
-    List<CustomerLoginLog> selectByUserId(@Param("userId") String userId);
+    List<CustomerLoginLog> selectByUserId(@Param("userId") Long userId);
 
     /**
      * 根据用户ID查询最新的登录日志
@@ -65,5 +65,5 @@ public interface CustomerLoginLogMapper {
      * @param userId 用户ID
      * @return 登录日志实体
      */
-    CustomerLoginLog selectLatestByUserId(@Param("userId") String userId);
+    CustomerLoginLog selectLatestByUserId(@Param("userId") Long userId);
 }
