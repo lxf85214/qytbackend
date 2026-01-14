@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.OrderInfoMapper">
+    <!-- 结果映射 -->
+    <resultMap id="OrderInfoResultMap" type="OrderInfo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+        <result column="order_type" property="orderType" jdbcType="INTEGER" />
+        <result column="parent_order_id" property="parentOrderId" jdbcType="VARCHAR" />
+        <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+        <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+        <result column="freight" property="freight" jdbcType="DECIMAL" />
+        <result column="discount_amount" property="discountAmount" jdbcType="DECIMAL" />
+        <result column="order_channel" property="orderChannel" jdbcType="INTEGER" />
+        <result column="pay_type" property="payType" jdbcType="INTEGER" />
+        <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+        <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="ship_time" property="shipTime" jdbcType="TIMESTAMP" />
+        <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
+        <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+        <result column="cancel_type" property="cancelType" jdbcType="INTEGER" />
+        <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="OrderInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_info (
+            user_id,
+            supplier_id,
+            order_type,
+            parent_order_id,
+            total_amount,
+            pay_amount,
+            freight,
+            discount_amount,
+            order_channel,
+            pay_type,
+            pay_status,
+            order_status,
+            order_time,
+            pay_time,
+            ship_time,
+            confirm_time,
+            cancel_time,
+            cancel_type,
+            cancel_reason,
+            remark,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{userId,jdbcType=INTEGER},
+            #{supplierId,jdbcType=INTEGER},
+            #{orderType,jdbcType=INTEGER},
+            #{parentOrderId,jdbcType=VARCHAR},
+            #{totalAmount,jdbcType=DECIMAL},
+            #{payAmount,jdbcType=DECIMAL},
+            #{freight,jdbcType=DECIMAL},
+            #{discountAmount,jdbcType=DECIMAL},
+            #{orderChannel,jdbcType=INTEGER},
+            #{payType,jdbcType=INTEGER},
+            #{payStatus,jdbcType=INTEGER},
+            #{orderStatus,jdbcType=INTEGER},
+            #{orderTime,jdbcType=TIMESTAMP},
+            #{payTime,jdbcType=TIMESTAMP},
+            #{shipTime,jdbcType=TIMESTAMP},
+            #{confirmTime,jdbcType=TIMESTAMP},
+            #{cancelTime,jdbcType=TIMESTAMP},
+            #{cancelType,jdbcType=INTEGER},
+            #{cancelReason,jdbcType=VARCHAR},
+            #{remark,jdbcType=VARCHAR},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM order_info WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="OrderInfo">
+        UPDATE order_info
+        <set>
+            <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId,jdbcType=INTEGER},</if>
+            <if test="orderType != null">order_type = #{orderType,jdbcType=INTEGER},</if>
+            <if test="parentOrderId != null">parent_order_id = #{parentOrderId,jdbcType=VARCHAR},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount,jdbcType=DECIMAL},</if>
+            <if test="payAmount != null">pay_amount = #{payAmount,jdbcType=DECIMAL},</if>
+            <if test="freight != null">freight = #{freight,jdbcType=DECIMAL},</if>
+            <if test="discountAmount != null">discount_amount = #{discountAmount,jdbcType=DECIMAL},</if>
+            <if test="orderChannel != null">order_channel = #{orderChannel,jdbcType=INTEGER},</if>
+            <if test="payType != null">pay_type = #{payType,jdbcType=INTEGER},</if>
+            <if test="payStatus != null">pay_status = #{payStatus,jdbcType=INTEGER},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus,jdbcType=INTEGER},</if>
+            <if test="orderTime != null">order_time = #{orderTime,jdbcType=TIMESTAMP},</if>
+            <if test="payTime != null">pay_time = #{payTime,jdbcType=TIMESTAMP},</if>
+            <if test="shipTime != null">ship_time = #{shipTime,jdbcType=TIMESTAMP},</if>
+            <if test="confirmTime != null">confirm_time = #{confirmTime,jdbcType=TIMESTAMP},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime,jdbcType=TIMESTAMP},</if>
+            <if test="cancelType != null">cancel_type = #{cancelType,jdbcType=INTEGER},</if>
+            <if test="cancelReason != null">cancel_reason = #{cancelReason,jdbcType=VARCHAR},</if>
+            <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据用户ID查询 -->
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info WHERE user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据订单状态查询 -->
+    <select id="selectByOrderStatus" parameterType="java.lang.Integer" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info WHERE order_status = #{orderStatus,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据支付状态查询 -->
+    <select id="selectByPayStatus" parameterType="java.lang.Integer" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info WHERE pay_status = #{payStatus,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据订单类型查询 -->
+    <select id="selectByOrderType" parameterType="java.lang.Integer" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info WHERE order_type = #{orderType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="OrderInfoResultMap">
+        SELECT * FROM order_info
+    </select>
+</mapper>

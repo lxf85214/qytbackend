@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.OrderAddressMapper">
+    <!-- 结果映射 -->
+    <resultMap id="OrderAddressResultMap" type="OrderAddress">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="order_id" property="orderId" jdbcType="BIGINT" />
+        <result column="shipping_company" property="shippingCompany" jdbcType="VARCHAR" />
+        <result column="tracking_number" property="trackingNumber" jdbcType="VARCHAR" />
+        <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+        <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+        <result column="receiver_province" property="receiverProvince" jdbcType="VARCHAR" />
+        <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
+        <result column="receiver_county" property="receiverCounty" jdbcType="VARCHAR" />
+        <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="OrderAddress" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_address (
+            order_id,
+            shipping_company,
+            tracking_number,
+            receiver_name,
+            receiver_phone,
+            receiver_province,
+            receiver_city,
+            receiver_county,
+            receiver_address,
+            created_time,
+            updated_time,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{orderId,jdbcType=BIGINT},
+            #{shippingCompany,jdbcType=VARCHAR},
+            #{trackingNumber,jdbcType=VARCHAR},
+            #{receiverName,jdbcType=VARCHAR},
+            #{receiverPhone,jdbcType=VARCHAR},
+            #{receiverProvince,jdbcType=VARCHAR},
+            #{receiverCity,jdbcType=VARCHAR},
+            #{receiverCounty,jdbcType=VARCHAR},
+            #{receiverAddress,jdbcType=VARCHAR},
+            #{createdTime,jdbcType=TIMESTAMP},
+            #{updatedTime,jdbcType=TIMESTAMP},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM order_address WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="OrderAddress">
+        UPDATE order_address
+        <set>
+            <if test="orderId != null">order_id = #{orderId,jdbcType=BIGINT},</if>
+            <if test="shippingCompany != null">shipping_company = #{shippingCompany,jdbcType=VARCHAR},</if>
+            <if test="trackingNumber != null">tracking_number = #{trackingNumber,jdbcType=VARCHAR},</if>
+            <if test="receiverName != null">receiver_name = #{receiverName,jdbcType=VARCHAR},</if>
+            <if test="receiverPhone != null">receiver_phone = #{receiverPhone,jdbcType=VARCHAR},</if>
+            <if test="receiverProvince != null">receiver_province = #{receiverProvince,jdbcType=VARCHAR},</if>
+            <if test="receiverCity != null">receiver_city = #{receiverCity,jdbcType=VARCHAR},</if>
+            <if test="receiverCounty != null">receiver_county = #{receiverCounty,jdbcType=VARCHAR},</if>
+            <if test="receiverAddress != null">receiver_address = #{receiverAddress,jdbcType=VARCHAR},</if>
+            <if test="createdTime != null">created_time = #{createdTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime,jdbcType=TIMESTAMP},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="OrderAddressResultMap">
+        SELECT * FROM order_address WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据订单ID查询 -->
+    <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="OrderAddressResultMap">
+        SELECT * FROM order_address WHERE order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="OrderAddressResultMap">
+        SELECT * FROM order_address
+    </select>
+</mapper>

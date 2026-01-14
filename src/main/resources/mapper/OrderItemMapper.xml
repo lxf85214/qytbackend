@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.OrderItemMapper">
+    <!-- 结果映射 -->
+    <resultMap id="OrderItemResultMap" type="OrderItem">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="order_id" property="orderId" jdbcType="BIGINT" />
+        <result column="product_id" property="productId" jdbcType="BIGINT" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_image" property="productImage" jdbcType="VARCHAR" />
+        <result column="product_sku" property="productSku" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DECIMAL" />
+        <result column="quantity" property="quantity" jdbcType="INTEGER" />
+        <result column="discount_rate" property="discountRate" jdbcType="DECIMAL" />
+        <result column="subtotal" property="subtotal" jdbcType="DECIMAL" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="OrderItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_item (
+            order_id,
+            product_id,
+            product_name,
+            product_image,
+            product_sku,
+            price,
+            quantity,
+            discount_rate,
+            subtotal,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{orderId,jdbcType=BIGINT},
+            #{productId,jdbcType=BIGINT},
+            #{productName,jdbcType=VARCHAR},
+            #{productImage,jdbcType=VARCHAR},
+            #{productSku,jdbcType=VARCHAR},
+            #{price,jdbcType=DECIMAL},
+            #{quantity,jdbcType=INTEGER},
+            #{discountRate,jdbcType=DECIMAL},
+            #{subtotal,jdbcType=DECIMAL},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM order_item WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="OrderItem">
+        UPDATE order_item
+        <set>
+            <if test="orderId != null">order_id = #{orderId,jdbcType=BIGINT},</if>
+            <if test="productId != null">product_id = #{productId,jdbcType=BIGINT},</if>
+            <if test="productName != null">product_name = #{productName,jdbcType=VARCHAR},</if>
+            <if test="productImage != null">product_image = #{productImage,jdbcType=VARCHAR},</if>
+            <if test="productSku != null">product_sku = #{productSku,jdbcType=VARCHAR},</if>
+            <if test="price != null">price = #{price,jdbcType=DECIMAL},</if>
+            <if test="quantity != null">quantity = #{quantity,jdbcType=INTEGER},</if>
+            <if test="discountRate != null">discount_rate = #{discountRate,jdbcType=DECIMAL},</if>
+            <if test="subtotal != null">subtotal = #{subtotal,jdbcType=DECIMAL},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="OrderItemResultMap">
+        SELECT * FROM order_item WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据订单ID查询 -->
+    <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="OrderItemResultMap">
+        SELECT * FROM order_item WHERE order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据商品ID查询 -->
+    <select id="selectByProductId" parameterType="java.lang.Long" resultMap="OrderItemResultMap">
+        SELECT * FROM order_item WHERE product_id = #{productId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="OrderItemResultMap">
+        SELECT * FROM order_item
+    </select>
+</mapper>

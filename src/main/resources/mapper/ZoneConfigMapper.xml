@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ZoneConfigMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ZoneConfigResultMap" type="ZoneConfig">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="item_type" property="itemType" jdbcType="INTEGER" />
+        <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+        <result column="zone_name" property="zoneName" jdbcType="VARCHAR" />
+        <result column="is_display" property="isDisplay" jdbcType="TINYINT" />
+        <result column="default_image" property="defaultImage" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ZoneConfig" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zone_config (
+            item_type,
+            item_name,
+            zone_name,
+            is_display,
+            default_image,
+            description,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{itemType,jdbcType=INTEGER},
+            #{itemName,jdbcType=VARCHAR},
+            #{zoneName,jdbcType=VARCHAR},
+            #{isDisplay,jdbcType=TINYINT},
+            #{defaultImage,jdbcType=VARCHAR},
+            #{description,jdbcType=VARCHAR},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM zone_config WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ZoneConfig">
+        UPDATE zone_config
+        <set>
+            <if test="itemType != null">item_type = #{itemType,jdbcType=INTEGER},</if>
+            <if test="itemName != null">item_name = #{itemName,jdbcType=VARCHAR},</if>
+            <if test="zoneName != null">zone_name = #{zoneName,jdbcType=VARCHAR},</if>
+            <if test="isDisplay != null">is_display = #{isDisplay,jdbcType=TINYINT},</if>
+            <if test="defaultImage != null">default_image = #{defaultImage,jdbcType=VARCHAR},</if>
+            <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="ZoneConfigResultMap">
+        SELECT * FROM zone_config WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据类目查询 -->
+    <select id="selectByItemType" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
+        SELECT * FROM zone_config WHERE item_type = #{itemType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据是否展示查询 -->
+    <select id="selectByIsDisplay" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
+        SELECT * FROM zone_config WHERE is_display = #{isDisplay,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ZoneConfigResultMap">
+        SELECT * FROM zone_config
+    </select>
+</mapper>

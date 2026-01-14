@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ProductStockMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ProductStockResultMap" type="ProductStock">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="product_id" property="productId" jdbcType="BIGINT" />
+        <result column="stock_quantity" property="stockQuantity" jdbcType="INTEGER" />
+        <result column="warehouse_id" property="warehouseId" jdbcType="BIGINT" />
+        <result column="locked_quantity" property="lockedQuantity" jdbcType="INTEGER" />
+        <result column="available_quantity" property="availableQuantity" jdbcType="INTEGER" />
+        <result column="sales" property="sales" jdbcType="INTEGER" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ProductStock" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_stock (
+            product_id,
+            stock_quantity,
+            warehouse_id,
+            locked_quantity,
+            available_quantity,
+            sales,
+            version,
+            remark,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{productId,jdbcType=BIGINT},
+            #{stockQuantity,jdbcType=INTEGER},
+            #{warehouseId,jdbcType=BIGINT},
+            #{lockedQuantity,jdbcType=INTEGER},
+            #{availableQuantity,jdbcType=INTEGER},
+            #{sales,jdbcType=INTEGER},
+            #{version,jdbcType=INTEGER},
+            #{remark,jdbcType=VARCHAR},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM product_stock WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ProductStock">
+        UPDATE product_stock
+        <set>
+            <if test="productId != null">product_id = #{productId,jdbcType=BIGINT},</if>
+            <if test="stockQuantity != null">stock_quantity = #{stockQuantity,jdbcType=INTEGER},</if>
+            <if test="warehouseId != null">warehouse_id = #{warehouseId,jdbcType=BIGINT},</if>
+            <if test="lockedQuantity != null">locked_quantity = #{lockedQuantity,jdbcType=INTEGER},</if>
+            <if test="availableQuantity != null">available_quantity = #{availableQuantity,jdbcType=INTEGER},</if>
+            <if test="sales != null">sales = #{sales,jdbcType=INTEGER},</if>
+            <if test="version != null">version = #{version,jdbcType=INTEGER},</if>
+            <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductStockResultMap">
+        SELECT * FROM product_stock WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据商品ID查询 -->
+    <select id="selectByProductId" parameterType="java.lang.Long" resultMap="ProductStockResultMap">
+        SELECT * FROM product_stock WHERE product_id = #{productId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据仓库ID查询 -->
+    <select id="selectByWarehouseId" parameterType="java.lang.Long" resultMap="ProductStockResultMap">
+        SELECT * FROM product_stock WHERE warehouse_id = #{warehouseId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ProductStockResultMap">
+        SELECT * FROM product_stock
+    </select>
+</mapper>

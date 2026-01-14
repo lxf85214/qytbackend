@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ProductCategoryMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ProductCategoryResultMap" type="ProductCategory">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ProductCategory" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_category (
+            category_name,
+            parent_id,
+            level,
+            sort_order,
+            status,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{categoryName,jdbcType=VARCHAR},
+            #{parentId,jdbcType=INTEGER},
+            #{level,jdbcType=INTEGER},
+            #{sortOrder,jdbcType=INTEGER},
+            #{status,jdbcType=TINYINT},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM product_category WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ProductCategory">
+        UPDATE product_category
+        <set>
+            <if test="categoryName != null">category_name = #{categoryName,jdbcType=VARCHAR},</if>
+            <if test="parentId != null">parent_id = #{parentId,jdbcType=INTEGER},</if>
+            <if test="level != null">level = #{level,jdbcType=INTEGER},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder,jdbcType=INTEGER},</if>
+            <if test="status != null">status = #{status,jdbcType=TINYINT},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据父分类ID查询 -->
+    <select id="selectByParentId" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category WHERE parent_id = #{parentId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据分类层级查询 -->
+    <select id="selectByLevel" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category WHERE level = #{level,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据状态查询 -->
+    <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category WHERE status = #{status,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category
+    </select>
+</mapper>

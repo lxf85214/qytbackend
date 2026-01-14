@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ProductAddAndRemoveMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ProductAddAndRemoveResultMap" type="ProductAddAndRemove">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_category" property="productCategory" jdbcType="VARCHAR" />
+        <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+        <result column="product_sku" property="productSku" jdbcType="VARCHAR" />
+        <result column="specifications" property="specifications" jdbcType="VARCHAR" />
+        <result column="selling_price" property="sellingPrice" jdbcType="DECIMAL" />
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+        <result column="stock_quantity" property="stockQuantity" jdbcType="INTEGER" />
+        <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+        <result column="detail_media" property="detailMedia" jdbcType="VARCHAR" />
+        <result column="product_description" property="productDescription" jdbcType="VARCHAR" />
+        <result column="logistics_info" property="logisticsInfo" jdbcType="VARCHAR" />
+        <result column="after_sales_service" property="afterSalesService" jdbcType="VARCHAR" />
+        <result column="tags" property="tags" jdbcType="VARCHAR" />
+        <result column="current_status" property="currentStatus" jdbcType="VARCHAR" />
+        <result column="remove_reason" property="removeReason" jdbcType="VARCHAR" />
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+        <result column="operation_type" property="operationType" jdbcType="VARCHAR" />
+        <result column="operation_time" property="operationTime" jdbcType="TIMESTAMP" />
+        <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+        <result column="application_department" property="applicationDepartment" jdbcType="VARCHAR" />
+        <result column="application_date" property="applicationDate" jdbcType="DATE" />
+        <result column="approval_status" property="approvalStatus" jdbcType="VARCHAR" />
+        <result column="approval_comments" property="approvalComments" jdbcType="VARCHAR" />
+        <result column="approver" property="approver" jdbcType="VARCHAR" />
+        <result column="approval_date" property="approvalDate" jdbcType="DATE" />
+        <result column="actual_remove_time" property="actualRemoveTime" jdbcType="TIMESTAMP" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ProductAddAndRemove" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_add_and_remove (
+            product_name,
+            product_category,
+            brand_id,
+            brand_name,
+            product_sku,
+            specifications,
+            selling_price,
+            original_price,
+            cost_price,
+            stock_quantity,
+            main_image,
+            detail_media,
+            product_description,
+            logistics_info,
+            after_sales_service,
+            tags,
+            current_status,
+            remove_reason,
+            remarks,
+            operation_type,
+            operation_time,
+            applicant,
+            application_department,
+            application_date,
+            approval_status,
+            approval_comments,
+            approver,
+            approval_date,
+            actual_remove_time,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{productName,jdbcType=VARCHAR},
+            #{productCategory,jdbcType=VARCHAR},
+            #{brandId,jdbcType=BIGINT},
+            #{brandName,jdbcType=VARCHAR},
+            #{productSku,jdbcType=VARCHAR},
+            #{specifications,jdbcType=VARCHAR},
+            #{sellingPrice,jdbcType=DECIMAL},
+            #{originalPrice,jdbcType=DECIMAL},
+            #{costPrice,jdbcType=DECIMAL},
+            #{stockQuantity,jdbcType=INTEGER},
+            #{mainImage,jdbcType=VARCHAR},
+            #{detailMedia,jdbcType=VARCHAR},
+            #{productDescription,jdbcType=VARCHAR},
+            #{logisticsInfo,jdbcType=VARCHAR},
+            #{afterSalesService,jdbcType=VARCHAR},
+            #{tags,jdbcType=VARCHAR},
+            #{currentStatus,jdbcType=VARCHAR},
+            #{removeReason,jdbcType=VARCHAR},
+            #{remarks,jdbcType=VARCHAR},
+            #{operationType,jdbcType=VARCHAR},
+            #{operationTime,jdbcType=TIMESTAMP},
+            #{applicant,jdbcType=VARCHAR},
+            #{applicationDepartment,jdbcType=VARCHAR},
+            #{applicationDate,jdbcType=DATE},
+            #{approvalStatus,jdbcType=VARCHAR},
+            #{approvalComments,jdbcType=VARCHAR},
+            #{approver,jdbcType=VARCHAR},
+            #{approvalDate,jdbcType=DATE},
+            #{actualRemoveTime,jdbcType=TIMESTAMP},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM product_add_and_remove WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ProductAddAndRemove">
+        UPDATE product_add_and_remove
+        <set>
+            <if test="productName != null">product_name = #{productName,jdbcType=VARCHAR},</if>
+            <if test="productCategory != null">product_category = #{productCategory,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=BIGINT},</if>
+            <if test="brandName != null">brand_name = #{brandName,jdbcType=VARCHAR},</if>
+            <if test="productSku != null">product_sku = #{productSku,jdbcType=VARCHAR},</if>
+            <if test="specifications != null">specifications = #{specifications,jdbcType=VARCHAR},</if>
+            <if test="sellingPrice != null">selling_price = #{sellingPrice,jdbcType=DECIMAL},</if>
+            <if test="originalPrice != null">original_price = #{originalPrice,jdbcType=DECIMAL},</if>
+            <if test="costPrice != null">cost_price = #{costPrice,jdbcType=DECIMAL},</if>
+            <if test="stockQuantity != null">stock_quantity = #{stockQuantity,jdbcType=INTEGER},</if>
+            <if test="mainImage != null">main_image = #{mainImage,jdbcType=VARCHAR},</if>
+            <if test="detailMedia != null">detail_media = #{detailMedia,jdbcType=VARCHAR},</if>
+            <if test="productDescription != null">product_description = #{productDescription,jdbcType=VARCHAR},</if>
+            <if test="logisticsInfo != null">logistics_info = #{logisticsInfo,jdbcType=VARCHAR},</if>
+            <if test="afterSalesService != null">after_sales_service = #{afterSalesService,jdbcType=VARCHAR},</if>
+            <if test="tags != null">tags = #{tags,jdbcType=VARCHAR},</if>
+            <if test="currentStatus != null">current_status = #{currentStatus,jdbcType=VARCHAR},</if>
+            <if test="removeReason != null">remove_reason = #{removeReason,jdbcType=VARCHAR},</if>
+            <if test="remarks != null">remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="operationType != null">operation_type = #{operationType,jdbcType=VARCHAR},</if>
+            <if test="operationTime != null">operation_time = #{operationTime,jdbcType=TIMESTAMP},</if>
+            <if test="applicant != null">applicant = #{applicant,jdbcType=VARCHAR},</if>
+            <if test="applicationDepartment != null">application_department = #{applicationDepartment,jdbcType=VARCHAR},</if>
+            <if test="applicationDate != null">application_date = #{applicationDate,jdbcType=DATE},</if>
+            <if test="approvalStatus != null">approval_status = #{approvalStatus,jdbcType=VARCHAR},</if>
+            <if test="approvalComments != null">approval_comments = #{approvalComments,jdbcType=VARCHAR},</if>
+            <if test="approver != null">approver = #{approver,jdbcType=VARCHAR},</if>
+            <if test="approvalDate != null">approval_date = #{approvalDate,jdbcType=DATE},</if>
+            <if test="actualRemoveTime != null">actual_remove_time = #{actualRemoveTime,jdbcType=TIMESTAMP},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据操作类型查询 -->
+    <select id="selectByOperationType" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove WHERE operation_type = #{operationType,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据审核状态查询 -->
+    <select id="selectByApprovalStatus" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove WHERE approval_status = #{approvalStatus,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据品牌ID查询 -->
+    <select id="selectByBrandId" parameterType="java.lang.Long" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove WHERE brand_id = #{brandId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据商品名称查询 -->
+    <select id="selectByProductName" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%')
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ProductAddAndRemoveResultMap">
+        SELECT * FROM product_add_and_remove
+    </select>
+</mapper>

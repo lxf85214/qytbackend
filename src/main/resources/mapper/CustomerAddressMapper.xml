@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.CustomerAddressMapper">
+    <!-- 结果映射 -->
+    <resultMap id="CustomerAddressResultMap" type="CustomerAddress">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="recipient_mobile" property="recipientMobile" jdbcType="VARCHAR" />
+        <result column="recipient_name" property="recipientName" jdbcType="VARCHAR" />
+        <result column="province" property="province" jdbcType="VARCHAR" />
+        <result column="city" property="city" jdbcType="VARCHAR" />
+        <result column="district" property="district" jdbcType="VARCHAR" />
+        <result column="detailed_address" property="detailedAddress" jdbcType="VARCHAR" />
+        <result column="is_default" property="isDefault" jdbcType="TINYINT" />
+        <result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="CustomerAddress" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO customer_address (
+            recipient_mobile,
+            recipient_name,
+            province,
+            city,
+            district,
+            detailed_address,
+            is_default,
+            postal_code,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{recipientMobile,jdbcType=VARCHAR},
+            #{recipientName,jdbcType=VARCHAR},
+            #{province,jdbcType=VARCHAR},
+            #{city,jdbcType=VARCHAR},
+            #{district,jdbcType=VARCHAR},
+            #{detailedAddress,jdbcType=VARCHAR},
+            #{isDefault,jdbcType=TINYINT},
+            #{postalCode,jdbcType=VARCHAR},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM customer_address WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="CustomerAddress">
+        UPDATE customer_address
+        <set>
+            <if test="recipientMobile != null">recipient_mobile = #{recipientMobile,jdbcType=VARCHAR},</if>
+            <if test="recipientName != null">recipient_name = #{recipientName,jdbcType=VARCHAR},</if>
+            <if test="province != null">province = #{province,jdbcType=VARCHAR},</if>
+            <if test="city != null">city = #{city,jdbcType=VARCHAR},</if>
+            <if test="district != null">district = #{district,jdbcType=VARCHAR},</if>
+            <if test="detailedAddress != null">detailed_address = #{detailedAddress,jdbcType=VARCHAR},</if>
+            <if test="isDefault != null">is_default = #{isDefault,jdbcType=TINYINT},</if>
+            <if test="postalCode != null">postal_code = #{postalCode,jdbcType=VARCHAR},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="CustomerAddressResultMap">
+        SELECT * FROM customer_address WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据是否默认查询 -->
+    <select id="selectByIsDefault" parameterType="java.lang.Integer" resultMap="CustomerAddressResultMap">
+        SELECT * FROM customer_address WHERE is_default = #{isDefault,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="CustomerAddressResultMap">
+        SELECT * FROM customer_address
+    </select>
+</mapper>

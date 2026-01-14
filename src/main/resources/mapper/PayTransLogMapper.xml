@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.PayTransLogMapper">
+    <!-- 结果映射 -->
+    <resultMap id="PayTransLogResultMap" type="PayTransLog">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="order_id" property="orderId" jdbcType="BIGINT" />
+        <result column="sub_order_id" property="subOrderId" jdbcType="BIGINT" />
+        <result column="third_seq_no" property="thirdSeqNo" jdbcType="BIGINT" />
+        <result column="pay_type" property="payType" jdbcType="INTEGER" />
+        <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+        <result column="cash_amount" property="cashAmount" jdbcType="DECIMAL" />
+        <result column="discount_amount" property="discountAmount" jdbcType="BIGINT" />
+        <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="PayTransLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pay_trans_log (
+            order_id,
+            sub_order_id,
+            third_seq_no,
+            pay_type,
+            pay_amount,
+            cash_amount,
+            discount_amount,
+            pay_status,
+            created_time,
+            updated_time,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{orderId,jdbcType=BIGINT},
+            #{subOrderId,jdbcType=BIGINT},
+            #{thirdSeqNo,jdbcType=BIGINT},
+            #{payType,jdbcType=INTEGER},
+            #{payAmount,jdbcType=DECIMAL},
+            #{cashAmount,jdbcType=DECIMAL},
+            #{discountAmount,jdbcType=BIGINT},
+            #{payStatus,jdbcType=INTEGER},
+            #{createdTime,jdbcType=TIMESTAMP},
+            #{updatedTime,jdbcType=TIMESTAMP},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM pay_trans_log WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="PayTransLog">
+        UPDATE pay_trans_log
+        <set>
+            <if test="orderId != null">order_id = #{orderId,jdbcType=BIGINT},</if>
+            <if test="subOrderId != null">sub_order_id = #{subOrderId,jdbcType=BIGINT},</if>
+            <if test="thirdSeqNo != null">third_seq_no = #{thirdSeqNo,jdbcType=BIGINT},</if>
+            <if test="payType != null">pay_type = #{payType,jdbcType=INTEGER},</if>
+            <if test="payAmount != null">pay_amount = #{payAmount,jdbcType=DECIMAL},</if>
+            <if test="cashAmount != null">cash_amount = #{cashAmount,jdbcType=DECIMAL},</if>
+            <if test="discountAmount != null">discount_amount = #{discountAmount,jdbcType=BIGINT},</if>
+            <if test="payStatus != null">pay_status = #{payStatus,jdbcType=INTEGER},</if>
+            <if test="createdTime != null">created_time = #{createdTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime,jdbcType=TIMESTAMP},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="PayTransLogResultMap">
+        SELECT * FROM pay_trans_log WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据订单ID查询 -->
+    <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="PayTransLogResultMap">
+        SELECT * FROM pay_trans_log WHERE order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据支付状态查询 -->
+    <select id="selectByPayStatus" parameterType="java.lang.Integer" resultMap="PayTransLogResultMap">
+        SELECT * FROM pay_trans_log WHERE pay_status = #{payStatus,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据支付类型查询 -->
+    <select id="selectByPayType" parameterType="java.lang.Integer" resultMap="PayTransLogResultMap">
+        SELECT * FROM pay_trans_log WHERE pay_type = #{payType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="PayTransLogResultMap">
+        SELECT * FROM pay_trans_log
+    </select>
+</mapper>

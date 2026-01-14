@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ProductAttrMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ProductAttrResultMap" type="ProductAttr">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="attr_type" property="attrType" jdbcType="INTEGER" />
+        <result column="attr_name" property="attrName" jdbcType="VARCHAR" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ProductAttr" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_attr (
+            attr_type,
+            attr_name,
+            product_id,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{attrType,jdbcType=INTEGER},
+            #{attrName,jdbcType=VARCHAR},
+            #{productId,jdbcType=INTEGER},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM product_attr WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ProductAttr">
+        UPDATE product_attr
+        <set>
+            <if test="attrType != null">attr_type = #{attrType,jdbcType=INTEGER},</if>
+            <if test="attrName != null">attr_name = #{attrName,jdbcType=VARCHAR},</if>
+            <if test="productId != null">product_id = #{productId,jdbcType=INTEGER},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
+        SELECT * FROM product_attr WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据商品ID查询 -->
+    <select id="selectByProductId" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
+        SELECT * FROM product_attr WHERE product_id = #{productId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据属性类型查询 -->
+    <select id="selectByAttrType" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
+        SELECT * FROM product_attr WHERE attr_type = #{attrType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ProductAttrResultMap">
+        SELECT * FROM product_attr
+    </select>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.UserLoginLogMapper">
+    <!-- 结果映射 -->
+    <resultMap id="UserLoginLogResultMap" type="UserLoginLog">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+        <result column="logout_time" property="logoutTime" jdbcType="TIMESTAMP" />
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+        <result column="login_device" property="loginDevice" jdbcType="VARCHAR" />
+        <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
+        <result column="logout_type" property="logoutType" jdbcType="VARCHAR" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="UserLoginLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_login_log (
+            user_id,
+            login_time,
+            logout_time,
+            login_ip,
+            login_device,
+            login_status,
+            logout_type,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{userId,jdbcType=BIGINT},
+            #{loginTime,jdbcType=TIMESTAMP},
+            #{logoutTime,jdbcType=TIMESTAMP},
+            #{loginIp,jdbcType=VARCHAR},
+            #{loginDevice,jdbcType=VARCHAR},
+            #{loginStatus,jdbcType=TINYINT},
+            #{logoutType,jdbcType=VARCHAR},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM user_login_log WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="UserLoginLog">
+        UPDATE user_login_log
+        <set>
+            <if test="userId != null">user_id = #{userId,jdbcType=BIGINT},</if>
+            <if test="loginTime != null">login_time = #{loginTime,jdbcType=TIMESTAMP},</if>
+            <if test="logoutTime != null">logout_time = #{logoutTime,jdbcType=TIMESTAMP},</if>
+            <if test="loginIp != null">login_ip = #{loginIp,jdbcType=VARCHAR},</if>
+            <if test="loginDevice != null">login_device = #{loginDevice,jdbcType=VARCHAR},</if>
+            <if test="loginStatus != null">login_status = #{loginStatus,jdbcType=TINYINT},</if>
+            <if test="logoutType != null">logout_type = #{logoutType,jdbcType=VARCHAR},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="UserLoginLogResultMap">
+        SELECT * FROM user_login_log WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据用户ID查询 -->
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="UserLoginLogResultMap">
+        SELECT * FROM user_login_log WHERE user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据登录状态查询 -->
+    <select id="selectByLoginStatus" parameterType="java.lang.Integer" resultMap="UserLoginLogResultMap">
+        SELECT * FROM user_login_log WHERE login_status = #{loginStatus,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="UserLoginLogResultMap">
+        SELECT * FROM user_login_log
+    </select>
+</mapper>

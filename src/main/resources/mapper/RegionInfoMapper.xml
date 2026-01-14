@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.RegionInfoMapper">
+    <!-- 结果映射 -->
+    <resultMap id="RegionInfoResultMap" type="RegionInfo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="region_name" property="regionName" jdbcType="VARCHAR" />
+        <result column="region_type" property="regionType" jdbcType="TINYINT" />
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+        <result column="region_code" property="regionCode" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="RegionInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO region_info (
+            region_name,
+            region_type,
+            parent_id,
+            region_code,
+            status,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{regionName,jdbcType=VARCHAR},
+            #{regionType,jdbcType=TINYINT},
+            #{parentId,jdbcType=INTEGER},
+            #{regionCode,jdbcType=VARCHAR},
+            #{status,jdbcType=TINYINT},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM region_info WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="RegionInfo">
+        UPDATE region_info
+        <set>
+            <if test="regionName != null">region_name = #{regionName,jdbcType=VARCHAR},</if>
+            <if test="regionType != null">region_type = #{regionType,jdbcType=TINYINT},</if>
+            <if test="parentId != null">parent_id = #{parentId,jdbcType=INTEGER},</if>
+            <if test="regionCode != null">region_code = #{regionCode,jdbcType=VARCHAR},</if>
+            <if test="status != null">status = #{status,jdbcType=TINYINT},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据父地区ID查询 -->
+    <select id="selectByParentId" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info WHERE parent_id = #{parentId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据地区类型查询 -->
+    <select id="selectByRegionType" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info WHERE region_type = #{regionType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据状态查询 -->
+    <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info WHERE status = #{status,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info
+    </select>
+</mapper>
