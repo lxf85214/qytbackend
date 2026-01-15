@@ -15,12 +15,7 @@ public class CustomerInfo extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     
     /**
-     * 用户唯一标识
-     */
-    private Long id;
-    
-    /**
-     * 用户名
+     * 用户名：唯一
      */
     private String username;
     
@@ -30,7 +25,7 @@ public class CustomerInfo extends BaseEntity implements Serializable {
     private String password;
     
     /**
-     * 手机号码
+     * 手机号码：唯一
      */
     private String phone;
     
@@ -45,7 +40,7 @@ public class CustomerInfo extends BaseEntity implements Serializable {
     private String realName;
     
     /**
-     * 身份证号
+     * 身份证号：唯一
      */
     private String idCard;
     
@@ -70,12 +65,12 @@ public class CustomerInfo extends BaseEntity implements Serializable {
     private LocalDateTime lastLoginTime;
     
     /**
-     * 账号状态（0-禁用，1-正常）
+     * 账号状态：0-禁用，1-正常
      */
     private Integer status;
     
     /**
-     * 会员等级（0-普通，1-白银，2-黄金等）
+     * 会员等级：0-普通，1-白银，2-黄金等
      */
     private Integer memberLevel;
     

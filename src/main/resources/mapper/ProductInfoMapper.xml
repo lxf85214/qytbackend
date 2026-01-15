@@ -13,7 +13,7 @@
         <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
         <result column="thumbnail_image" property="thumbnailImage" jdbcType="VARCHAR" />
         <result column="listing_image" property="listingImage" jdbcType="VARCHAR" />
-        <result column="detail_images" property="detailImages" jdbcType="TEXT" />
+        <result column="detail_images" property="detailImages" jdbcType="VARCHAR" />
         <result column="description" property="description" jdbcType="VARCHAR" />
         <result column="specifications" property="specifications" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="TINYINT" />
