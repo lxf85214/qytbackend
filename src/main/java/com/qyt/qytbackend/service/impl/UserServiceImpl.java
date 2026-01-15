@@ -11,8 +11,7 @@ import com.qyt.qytbackend.mapper.UserInfoMapper;
 import com.qyt.qytbackend.mapper.UserLoginLogMapper;
 import com.qyt.qytbackend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,9 @@ import java.util.concurrent.TimeUnit;
  * 用户服务实现类
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final long TOKEN_EXPIRE_DAYS = 30;
 
     @Autowired

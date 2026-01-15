@@ -5,7 +5,7 @@
     <resultMap id="RegionInfoResultMap" type="RegionInfo">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="region_name" property="regionName" jdbcType="VARCHAR" />
-        <result column="region_type" property="regionType" jdbcType="TINYINT" />
+        <result column="region_type" property="level" jdbcType="TINYINT" />
         <result column="parent_id" property="parentId" jdbcType="INTEGER" />
         <result column="region_code" property="regionCode" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="TINYINT" />
@@ -13,7 +13,7 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+        <result column="is_delete" property="isDeleted" jdbcType="TINYINT" />
     </resultMap>
 
     <!-- 插入语句 -->
@@ -39,7 +39,7 @@
             #{createTime,jdbcType=TIMESTAMP},
             #{updatePin,jdbcType=VARCHAR},
             #{updateTime,jdbcType=TIMESTAMP},
-            #{isDelete,jdbcType=TINYINT}
+            #{isDeleted,jdbcType=TINYINT}
         )
     </insert>
 
@@ -61,7 +61,7 @@
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
             <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
-            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+            <if test="isDeleted != null">is_delete = #{isDeleted,jdbcType=TINYINT},</if>
         </set>
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
@@ -89,5 +89,37 @@
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="RegionInfoResultMap">
         SELECT * FROM region_info WHERE is_delete = 0
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectByPage" parameterType="map" resultMap="RegionInfoResultMap">
+        SELECT * FROM region_info 
+        WHERE is_delete = 0
+        <if test="regionName != null and regionName != ''">
+            AND region_name LIKE CONCAT('%', #{regionName}, '%')
+        </if>
+        <if test="regionType != null">
+            AND region_type = #{regionType}
+        </if>
+        <if test="parentId != null">
+            AND parent_id = #{parentId}
+        </if>
+        ORDER BY id ASC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 查询总数 -->
+    <select id="selectCount" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM region_info 
+        WHERE is_delete = 0
+        <if test="regionName != null and regionName != ''">
+            AND region_name LIKE CONCAT('%', #{regionName}, '%')
+        </if>
+        <if test="regionType != null">
+            AND region_type = #{regionType}
+        </if>
+        <if test="parentId != null">
+            AND parent_id = #{parentId}
+        </if>
     </select>
 </mapper>

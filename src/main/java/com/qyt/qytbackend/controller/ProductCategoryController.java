@@ -9,10 +9,9 @@ import com.qyt.qytbackend.dto.ApiResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +22,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
  * 商品分类控制器
  */
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/product-category")
 @Tag(name = "商品分类管理", description = "商品分类相关的API接口")
+@Slf4j
 public class ProductCategoryController {
-
-    private static final Logger log = LoggerFactory.getLogger(ProductCategoryController.class);
 
     @Autowired
     private ProductCategoryService productCategoryService;
