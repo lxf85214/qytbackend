@@ -12,7 +12,7 @@ public interface UserInfoMapper {
 
     int update(UserInfo userInfo);
 
-    UserInfo selectById(@Param("id") Integer id);
+    UserInfo selectById(@Param("id") Long id);
 
     UserInfo selectByUsername(@Param("username") String username);
 

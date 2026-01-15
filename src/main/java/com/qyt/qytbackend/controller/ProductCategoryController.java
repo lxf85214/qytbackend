@@ -7,6 +7,8 @@ import com.qyt.qytbackend.dto.ApiResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/category")
 @Tag(name = "商品分类管理", description = "商品分类相关的API接口")
 public class ProductCategoryController {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductCategoryController.class);
 
     @Autowired
     private ProductCategoryService productCategoryService;
@@ -53,8 +57,9 @@ public class ProductCategoryController {
 
             return ApiResponseDTO.success(productCategory);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ApiResponseDTO.error("创建分类失败：" + e.getMessage());
+            log.error("创建分类失败: {}", e.getMessage(), e);
+            throw e;
         }
     }
 }
+
