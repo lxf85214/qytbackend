@@ -1,8 +1,7 @@
 
 package com.qyt.qytbackend.common.oss;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.ResponseInputStream;
@@ -19,9 +18,9 @@ import java.util.stream.Collectors;
  * OSS客户端工具类
  */
 @Component
+@Slf4j
 public class OssClient {
 
-    private static final Logger log = LoggerFactory.getLogger(OssClient.class);
     private static S3Client s3Client;
     private static OssProperties ossProperties;
 
