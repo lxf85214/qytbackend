@@ -104,4 +104,26 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public List<ProductCategory> getChildCategories(Integer parentId) {
         return productCategoryMapper.selectByParentId(parentId);
     }
+
+    @Override
+    public boolean deleteCategory(Integer id) {
+        log.info("开始删除商品分类: ID={}", id);
+
+        // 根据ID查询分类
+        ProductCategory productCategory = productCategoryMapper.selectById(id);
+        if (productCategory == null) {
+            log.warn("分类不存在: ID={}", id);
+            return false;
+        }
+
+        // 设置为已删除
+        productCategory.setIsDeleted(1);
+        productCategory.setUpdateTime(LocalDateTime.now());
+
+        // 执行更新操作
+        int result = productCategoryMapper.update(productCategory);
+        log.info("删除商品分类结果: {}", result > 0 ? "成功" : "失败");
+
+        return result > 0;
+    }
 }

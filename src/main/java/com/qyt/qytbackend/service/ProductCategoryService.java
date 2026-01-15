@@ -34,4 +34,12 @@ public interface ProductCategoryService {
      * @return 子分类列表
      */
     List<ProductCategory> getChildCategories(Integer parentId);
+
+    /**
+     * 删除商品分类（软删除）
+     *
+     * @param id 分类ID
+     * @return 是否删除成功
+     */
+    boolean deleteCategory(Integer id);
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * 商品分类控制器
@@ -88,6 +90,35 @@ public class ProductCategoryController {
             return ApiResponseDTO.success(responseDTO);
         } catch (Exception e) {
             log.error("分页查询分类失败: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 删除商品分类（软删除）
+     *
+     * @param id 分类ID
+     * @return API响应
+     */
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "删除商品分类", description = "根据分类ID进行软删除，将is_deleted设置为1")
+    public ApiResponseDTO<Boolean> deleteCategory(@Parameter(description = "分类ID") @PathVariable("id") Integer id) {
+        try {
+            // 验证ID参数
+            if (id == null || id <= 0) {
+                return ApiResponseDTO.error(400, "分类ID不能为空且必须大于0");
+            }
+
+            // 执行删除操作
+            boolean result = productCategoryService.deleteCategory(id);
+
+            if (result) {
+                return ApiResponseDTO.success(true);
+            } else {
+                return ApiResponseDTO.error(404, "分类不存在");
+            }
+        } catch (Exception e) {
+            log.error("删除分类失败: {}", e.getMessage(), e);
             throw e;
         }
     }
