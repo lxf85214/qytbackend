@@ -56,21 +56,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="UserRoleResultMap">
-        SELECT * FROM user_role WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM user_role WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据用户ID查询 -->
     <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="UserRoleResultMap">
-        SELECT * FROM user_role WHERE user_id = #{userId,jdbcType=INTEGER}
+        SELECT * FROM user_role WHERE user_id = #{userId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据角色ID查询 -->
     <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="UserRoleResultMap">
-        SELECT * FROM user_role WHERE role_id = #{roleId,jdbcType=INTEGER}
+        SELECT * FROM user_role WHERE role_id = #{roleId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="UserRoleResultMap">
-        SELECT * FROM user_role
+        SELECT * FROM user_role WHERE is_delete = 0
     </select>
 </mapper>

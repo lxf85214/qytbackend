@@ -100,33 +100,33 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM product_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据商品名称查询 -->
     <select id="selectByProductName" parameterType="java.lang.String" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%')
+        SELECT * FROM product_info WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%') AND is_delete = 0
     </select>
 
     <!-- 根据分类ID查询 -->
     <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE category_first_id = #{categoryId,jdbcType=INTEGER} 
+        SELECT * FROM product_info WHERE (category_first_id = #{categoryId,jdbcType=INTEGER} 
         OR category_second_id = #{categoryId,jdbcType=INTEGER} 
-        OR category_third_id = #{categoryId,jdbcType=INTEGER}
+        OR category_third_id = #{categoryId,jdbcType=INTEGER}) AND is_delete = 0
     </select>
 
     <!-- 根据品牌ID查询 -->
     <select id="selectByBrandId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE brand_id = #{brandId,jdbcType=INTEGER}
+        SELECT * FROM product_info WHERE brand_id = #{brandId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM product_info WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info
+        SELECT * FROM product_info WHERE is_delete = 0
     </select>
 </mapper>

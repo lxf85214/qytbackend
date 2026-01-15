@@ -80,26 +80,26 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ResourceResultMap">
-        SELECT * FROM resource WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM resource WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据父ID查询 -->
     <select id="selectByPid" parameterType="java.lang.Integer" resultMap="ResourceResultMap">
-        SELECT * FROM resource WHERE pid = #{pid,jdbcType=INTEGER}
+        SELECT * FROM resource WHERE pid = #{pid,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据类型查询 -->
     <select id="selectByType" parameterType="java.lang.String" resultMap="ResourceResultMap">
-        SELECT * FROM resource WHERE type = #{type,jdbcType=VARCHAR}
+        SELECT * FROM resource WHERE type = #{type,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ResourceResultMap">
-        SELECT * FROM resource WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM resource WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ResourceResultMap">
-        SELECT * FROM resource
+        SELECT * FROM resource WHERE is_delete = 0
     </select>
 </mapper>

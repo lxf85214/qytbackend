@@ -96,31 +96,31 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM user_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据用户名查询 -->
     <select id="selectByUsername" parameterType="java.lang.String" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info WHERE username = #{username,jdbcType=VARCHAR}
+        SELECT * FROM user_info WHERE username = #{username,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据手机号查询 -->
     <select id="selectByPhone" parameterType="java.lang.String" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info WHERE phone = #{phone,jdbcType=VARCHAR}
+        SELECT * FROM user_info WHERE phone = #{phone,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据用户类型查询 -->
     <select id="selectByUserType" parameterType="java.lang.Integer" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info WHERE user_type = #{userType,jdbcType=INTEGER}
+        SELECT * FROM user_info WHERE user_type = #{userType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM user_info WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="UserInfoResultMap">
-        SELECT * FROM user_info
+        SELECT * FROM user_info WHERE is_delete = 0
     </select>
 </mapper>

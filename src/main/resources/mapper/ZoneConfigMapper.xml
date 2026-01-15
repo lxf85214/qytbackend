@@ -72,21 +72,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM zone_config WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据类目查询 -->
     <select id="selectByItemType" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE item_type = #{itemType,jdbcType=INTEGER}
+        SELECT * FROM zone_config WHERE item_type = #{itemType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据是否展示查询 -->
     <select id="selectByIsDisplay" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE is_display = #{isDisplay,jdbcType=INTEGER}
+        SELECT * FROM zone_config WHERE is_display = #{isDisplay,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config
+        SELECT * FROM zone_config WHERE is_delete = 0
     </select>
 </mapper>

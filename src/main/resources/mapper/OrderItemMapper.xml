@@ -84,21 +84,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="OrderItemResultMap">
-        SELECT * FROM order_item WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM order_item WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据订单ID查询 -->
     <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="OrderItemResultMap">
-        SELECT * FROM order_item WHERE order_id = #{orderId,jdbcType=BIGINT}
+        SELECT * FROM order_item WHERE order_id = #{orderId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据商品ID查询 -->
     <select id="selectByProductId" parameterType="java.lang.Long" resultMap="OrderItemResultMap">
-        SELECT * FROM order_item WHERE product_id = #{productId,jdbcType=BIGINT}
+        SELECT * FROM order_item WHERE product_id = #{productId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="OrderItemResultMap">
-        SELECT * FROM order_item
+        SELECT * FROM order_item WHERE is_delete = 0
     </select>
 </mapper>

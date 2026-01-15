@@ -68,26 +68,26 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
-        SELECT * FROM region_info WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM region_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据父地区ID查询 -->
     <select id="selectByParentId" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
-        SELECT * FROM region_info WHERE parent_id = #{parentId,jdbcType=INTEGER}
+        SELECT * FROM region_info WHERE parent_id = #{parentId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据地区类型查询 -->
     <select id="selectByRegionType" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
-        SELECT * FROM region_info WHERE region_type = #{regionType,jdbcType=INTEGER}
+        SELECT * FROM region_info WHERE region_type = #{regionType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="RegionInfoResultMap">
-        SELECT * FROM region_info WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM region_info WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="RegionInfoResultMap">
-        SELECT * FROM region_info
+        SELECT * FROM region_info WHERE is_delete = 0
     </select>
 </mapper>

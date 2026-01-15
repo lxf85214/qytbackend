@@ -60,21 +60,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
-        SELECT * FROM product_attr WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM product_attr WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据商品ID查询 -->
     <select id="selectByProductId" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
-        SELECT * FROM product_attr WHERE product_id = #{productId,jdbcType=INTEGER}
+        SELECT * FROM product_attr WHERE product_id = #{productId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据属性类型查询 -->
     <select id="selectByAttrType" parameterType="java.lang.Integer" resultMap="ProductAttrResultMap">
-        SELECT * FROM product_attr WHERE attr_type = #{attrType,jdbcType=INTEGER}
+        SELECT * FROM product_attr WHERE attr_type = #{attrType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductAttrResultMap">
-        SELECT * FROM product_attr
+        SELECT * FROM product_attr WHERE is_delete = 0
     </select>
 </mapper>

@@ -88,26 +88,26 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="PayTransLogResultMap">
-        SELECT * FROM pay_trans_log WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM pay_trans_log WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据订单ID查询 -->
     <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="PayTransLogResultMap">
-        SELECT * FROM pay_trans_log WHERE order_id = #{orderId,jdbcType=BIGINT}
+        SELECT * FROM pay_trans_log WHERE order_id = #{orderId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据支付状态查询 -->
     <select id="selectByPayStatus" parameterType="java.lang.Integer" resultMap="PayTransLogResultMap">
-        SELECT * FROM pay_trans_log WHERE pay_status = #{payStatus,jdbcType=INTEGER}
+        SELECT * FROM pay_trans_log WHERE pay_status = #{payStatus,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据支付类型查询 -->
     <select id="selectByPayType" parameterType="java.lang.Integer" resultMap="PayTransLogResultMap">
-        SELECT * FROM pay_trans_log WHERE pay_type = #{payType,jdbcType=INTEGER}
+        SELECT * FROM pay_trans_log WHERE pay_type = #{payType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="PayTransLogResultMap">
-        SELECT * FROM pay_trans_log
+        SELECT * FROM pay_trans_log WHERE is_delete = 0
     </select>
 </mapper>

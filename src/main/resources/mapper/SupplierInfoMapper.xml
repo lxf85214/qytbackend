@@ -34,13 +34,14 @@
 
     <!-- 查询单个 -->
     <select id="selectSupplierInfoById" parameterType="java.lang.Long" resultMap="SupplierInfoResultMap">
-        SELECT * FROM supplier_info WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM supplier_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询列表 -->
     <select id="selectSupplierInfoList" parameterType="SupplierInfo" resultMap="SupplierInfoResultMap">
         SELECT * FROM supplier_info
         <where>
+            AND is_delete = 0
             <if test="supplierName != null and supplierName != ''">
                 AND supplier_name LIKE CONCAT('%', #{supplierName,jdbcType=VARCHAR}, '%')
             </if>
@@ -52,9 +53,6 @@
             </if>
             <if test="state != null">
                 AND state = #{state,jdbcType=TINYINT}
-            </if>
-            <if test="isDelete != null">
-                AND is_delete = #{isDelete,jdbcType=TINYINT}
             </if>
         </where>
     </select>

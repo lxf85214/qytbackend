@@ -64,21 +64,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductBrandResultMap">
-        SELECT * FROM product_brand WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM product_brand WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据品牌名称查询 -->
     <select id="selectByBrandName" parameterType="java.lang.String" resultMap="ProductBrandResultMap">
-        SELECT * FROM product_brand WHERE brand_name = #{brandName,jdbcType=VARCHAR}
+        SELECT * FROM product_brand WHERE brand_name = #{brandName,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductBrandResultMap">
-        SELECT * FROM product_brand WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM product_brand WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductBrandResultMap">
-        SELECT * FROM product_brand
+        SELECT * FROM product_brand WHERE is_delete = 0
     </select>
 </mapper>

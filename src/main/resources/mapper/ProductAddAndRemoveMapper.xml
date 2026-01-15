@@ -164,31 +164,31 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM product_add_and_remove WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据操作类型查询 -->
     <select id="selectByOperationType" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove WHERE operation_type = #{operationType,jdbcType=VARCHAR}
+        SELECT * FROM product_add_and_remove WHERE operation_type = #{operationType,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据审核状态查询 -->
     <select id="selectByApprovalStatus" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove WHERE approval_status = #{approvalStatus,jdbcType=VARCHAR}
+        SELECT * FROM product_add_and_remove WHERE approval_status = #{approvalStatus,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据品牌ID查询 -->
     <select id="selectByBrandId" parameterType="java.lang.Long" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove WHERE brand_id = #{brandId,jdbcType=BIGINT}
+        SELECT * FROM product_add_and_remove WHERE brand_id = #{brandId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据商品名称查询 -->
     <select id="selectByProductName" parameterType="java.lang.String" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%')
+        SELECT * FROM product_add_and_remove WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%') AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductAddAndRemoveResultMap">
-        SELECT * FROM product_add_and_remove
+        SELECT * FROM product_add_and_remove WHERE is_delete = 0
     </select>
 </mapper>

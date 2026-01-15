@@ -56,21 +56,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="CustomerVerificationCodeResultMap">
-        SELECT * FROM customer_verification_code WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM customer_verification_code WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据手机号查询 -->
     <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="CustomerVerificationCodeResultMap">
-        SELECT * FROM customer_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR}
+        SELECT * FROM customer_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 根据手机号查询最新的验证码 -->
     <select id="selectLatestByPhoneNumber" parameterType="java.lang.String" resultMap="CustomerVerificationCodeResultMap">
-        SELECT * FROM customer_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR} ORDER BY create_time DESC LIMIT 1
+        SELECT * FROM customer_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR} AND is_delete = 0 ORDER BY create_time DESC LIMIT 1
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="CustomerVerificationCodeResultMap">
-        SELECT * FROM customer_verification_code
+        SELECT * FROM customer_verification_code WHERE is_delete = 0
     </select>
 </mapper>

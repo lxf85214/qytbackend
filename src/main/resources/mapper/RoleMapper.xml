@@ -56,16 +56,16 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="RoleResultMap">
-        SELECT * FROM role WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM role WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="RoleResultMap">
-        SELECT * FROM role WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM role WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="RoleResultMap">
-        SELECT * FROM role
+        SELECT * FROM role WHERE is_delete = 0
     </select>
 </mapper>

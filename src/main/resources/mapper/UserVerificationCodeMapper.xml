@@ -56,16 +56,16 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="UserVerificationCodeResultMap">
-        SELECT * FROM user_verification_code WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM user_verification_code WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据手机号查询 -->
     <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="UserVerificationCodeResultMap">
-        SELECT * FROM user_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR}
+        SELECT * FROM user_verification_code WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="UserVerificationCodeResultMap">
-        SELECT * FROM user_verification_code
+        SELECT * FROM user_verification_code WHERE is_delete = 0
     </select>
 </mapper>

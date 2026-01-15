@@ -80,16 +80,16 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="CustomerAddressResultMap">
-        SELECT * FROM customer_address WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM customer_address WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据是否默认查询 -->
     <select id="selectByIsDefault" parameterType="java.lang.Integer" resultMap="CustomerAddressResultMap">
-        SELECT * FROM customer_address WHERE is_default = #{isDefault,jdbcType=INTEGER}
+        SELECT * FROM customer_address WHERE is_default = #{isDefault,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="CustomerAddressResultMap">
-        SELECT * FROM customer_address
+        SELECT * FROM customer_address WHERE is_delete = 0
     </select>
 </mapper>

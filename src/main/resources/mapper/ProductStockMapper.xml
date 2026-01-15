@@ -80,21 +80,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductStockResultMap">
-        SELECT * FROM product_stock WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM product_stock WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据商品ID查询 -->
     <select id="selectByProductId" parameterType="java.lang.Long" resultMap="ProductStockResultMap">
-        SELECT * FROM product_stock WHERE product_id = #{productId,jdbcType=BIGINT}
+        SELECT * FROM product_stock WHERE product_id = #{productId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据仓库ID查询 -->
     <select id="selectByWarehouseId" parameterType="java.lang.Long" resultMap="ProductStockResultMap">
-        SELECT * FROM product_stock WHERE warehouse_id = #{warehouseId,jdbcType=BIGINT}
+        SELECT * FROM product_stock WHERE warehouse_id = #{warehouseId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductStockResultMap">
-        SELECT * FROM product_stock
+        SELECT * FROM product_stock WHERE is_delete = 0
     </select>
 </mapper>

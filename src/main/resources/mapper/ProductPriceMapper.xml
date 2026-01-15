@@ -80,21 +80,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="ProductPriceResultMap">
-        SELECT * FROM product_price WHERE id = #{id,jdbcType=BIGINT}
+        SELECT * FROM product_price WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据商品ID查询 -->
     <select id="selectByProductId" parameterType="java.lang.Long" resultMap="ProductPriceResultMap">
-        SELECT * FROM product_price WHERE product_id = #{productId,jdbcType=BIGINT}
+        SELECT * FROM product_price WHERE product_id = #{productId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据价格类型查询 -->
     <select id="selectByPriceType" parameterType="java.lang.String" resultMap="ProductPriceResultMap">
-        SELECT * FROM product_price WHERE price_type = #{priceType,jdbcType=VARCHAR}
+        SELECT * FROM product_price WHERE price_type = #{priceType,jdbcType=VARCHAR} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductPriceResultMap">
-        SELECT * FROM product_price
+        SELECT * FROM product_price WHERE is_delete = 0
     </select>
 </mapper>

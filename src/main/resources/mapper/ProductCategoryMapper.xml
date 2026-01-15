@@ -68,26 +68,48 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
-        SELECT * FROM product_category WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM product_category WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据父分类ID查询 -->
     <select id="selectByParentId" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
-        SELECT * FROM product_category WHERE parent_id = #{parentId,jdbcType=INTEGER}
+        SELECT * FROM product_category WHERE parent_id = #{parentId,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据分类层级查询 -->
     <select id="selectByLevel" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
-        SELECT * FROM product_category WHERE level = #{level,jdbcType=INTEGER}
+        SELECT * FROM product_category WHERE level = #{level,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductCategoryResultMap">
-        SELECT * FROM product_category WHERE status = #{status,jdbcType=INTEGER}
+        SELECT * FROM product_category WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductCategoryResultMap">
+        SELECT * FROM product_category WHERE is_delete = 0
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectByPage" resultMap="ProductCategoryResultMap">
         SELECT * FROM product_category
+        <where>
+            AND is_delete = 0
+            <if test="level != null">AND level = #{level,jdbcType=INTEGER}</if>
+            <if test="categoryName != null and categoryName != ''">AND category_name LIKE CONCAT('%', #{categoryName,jdbcType=VARCHAR}, '%')</if>
+        </where>
+        ORDER BY sort_order ASC, id ASC
+        LIMIT #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询总数 -->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM product_category
+        <where>
+            AND is_delete = 0
+            <if test="level != null">AND level = #{level,jdbcType=INTEGER}</if>
+            <if test="categoryName != null and categoryName != ''">AND category_name LIKE CONCAT('%', #{categoryName,jdbcType=VARCHAR}, '%')</if>
+        </where>
     </select>
 </mapper>

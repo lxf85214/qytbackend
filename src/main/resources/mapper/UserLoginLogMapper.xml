@@ -76,21 +76,21 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="UserLoginLogResultMap">
-        SELECT * FROM user_login_log WHERE id = #{id,jdbcType=INTEGER}
+        SELECT * FROM user_login_log WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据用户ID查询 -->
     <select id="selectByUserId" parameterType="java.lang.Long" resultMap="UserLoginLogResultMap">
-        SELECT * FROM user_login_log WHERE user_id = #{userId,jdbcType=BIGINT}
+        SELECT * FROM user_login_log WHERE user_id = #{userId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据登录状态查询 -->
     <select id="selectByLoginStatus" parameterType="java.lang.Integer" resultMap="UserLoginLogResultMap">
-        SELECT * FROM user_login_log WHERE login_status = #{loginStatus,jdbcType=INTEGER}
+        SELECT * FROM user_login_log WHERE login_status = #{loginStatus,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="UserLoginLogResultMap">
-        SELECT * FROM user_login_log
+        SELECT * FROM user_login_log WHERE is_delete = 0
     </select>
 </mapper>
