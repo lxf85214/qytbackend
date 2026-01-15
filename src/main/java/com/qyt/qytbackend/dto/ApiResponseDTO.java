@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Schema(name = "ApiResponseDTO", description = "API响应结果")
 public class ApiResponseDTO<T> {
-    @Schema(description = "响应码", example = "200")
+    @Schema(description = "响应码", example = "0000")
     private int code;
     @Schema(description = "响应消息", example = "success")
     private String message;
