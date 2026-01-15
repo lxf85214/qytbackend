@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.SupplierInfoMapper">
+    <resultMap type="SupplierInfo" id="SupplierInfoResultMap">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+        <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="supplier_type" property="supplierType" jdbcType="TINYINT" />
+        <result column="bussiness_license" property="bussinessLicense" jdbcType="VARCHAR" />
+        <result column="tax_license" property="taxLicense" jdbcType="VARCHAR" />
+        <result column="company_province" property="companyProvince" jdbcType="VARCHAR" />
+        <result column="company_city" property="companyCity" jdbcType="VARCHAR" />
+        <result column="company_addr" property="companyAddr" jdbcType="VARCHAR" />
+        <result column="bussiness_license_image" property="bussinessLicenseImage" jdbcType="VARCHAR" />
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+        <result column="bank_name_branch" property="bankNameBranch" jdbcType="VARCHAR" />
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR" />
+        <result column="legalPerson" property="legalPerson" jdbcType="VARCHAR" />
+        <result column="legal_identity_id" property="legalIdentityId" jdbcType="VARCHAR" />
+        <result column="legal_phone" property="legalPhone" jdbcType="VARCHAR" />
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="customer_service_phone" property="customerServicePhone" jdbcType="VARCHAR" />
+        <result column="unit_logo" property="unitLogo" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="TINYINT" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 查询单个 -->
+    <select id="selectSupplierInfoById" parameterType="java.lang.Long" resultMap="SupplierInfoResultMap">
+        SELECT * FROM supplier_info WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询列表 -->
+    <select id="selectSupplierInfoList" parameterType="SupplierInfo" resultMap="SupplierInfoResultMap">
+        SELECT * FROM supplier_info
+        <where>
+            <if test="supplierName != null and supplierName != ''">
+                AND supplier_name LIKE CONCAT('%', #{supplierName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND company_name LIKE CONCAT('%', #{companyName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="supplierType != null">
+                AND supplier_type = #{supplierType,jdbcType=TINYINT}
+            </if>
+            <if test="state != null">
+                AND state = #{state,jdbcType=TINYINT}
+            </if>
+            <if test="isDelete != null">
+                AND is_delete = #{isDelete,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insertSupplierInfo" parameterType="SupplierInfo">
+        INSERT INTO supplier_info (
+            supplier_name,
+            company_name,
+            supplier_type,
+            bussiness_license,
+            tax_license,
+            company_province,
+            company_city,
+            company_addr,
+            bussiness_license_image,
+            bank_name,
+            bank_name_branch,
+            bank_code,
+            legalPerson,
+            legal_identity_id,
+            legal_phone,
+            contact_name,
+            contact_phone,
+            contact_address,
+            email,
+            customer_service_phone,
+            unit_logo,
+            state,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{supplierName,jdbcType=VARCHAR},
+            #{companyName,jdbcType=VARCHAR},
+            #{supplierType,jdbcType=TINYINT},
+            #{bussinessLicense,jdbcType=VARCHAR},
+            #{taxLicense,jdbcType=VARCHAR},
+            #{companyProvince,jdbcType=VARCHAR},
+            #{companyCity,jdbcType=VARCHAR},
+            #{companyAddr,jdbcType=VARCHAR},
+            #{bussinessLicenseImage,jdbcType=VARCHAR},
+            #{bankName,jdbcType=VARCHAR},
+            #{bankNameBranch,jdbcType=VARCHAR},
+            #{bankCode,jdbcType=VARCHAR},
+            #{legalPerson,jdbcType=VARCHAR},
+            #{legalIdentityId,jdbcType=VARCHAR},
+            #{legalPhone,jdbcType=VARCHAR},
+            #{contactName,jdbcType=VARCHAR},
+            #{contactPhone,jdbcType=VARCHAR},
+            #{contactAddress,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{customerServicePhone,jdbcType=VARCHAR},
+            #{unitLogo,jdbcType=VARCHAR},
+            #{state,jdbcType=TINYINT},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 修改 -->
+    <update id="updateSupplierInfo" parameterType="SupplierInfo">
+        UPDATE supplier_info
+        <set>
+            <if test="supplierName != null">supplier_name = #{supplierName,jdbcType=VARCHAR},</if>
+            <if test="companyName != null">company_name = #{companyName,jdbcType=VARCHAR},</if>
+            <if test="supplierType != null">supplier_type = #{supplierType,jdbcType=TINYINT},</if>
+            <if test="bussinessLicense != null">bussiness_license = #{bussinessLicense,jdbcType=VARCHAR},</if>
+            <if test="taxLicense != null">tax_license = #{taxLicense,jdbcType=VARCHAR},</if>
+            <if test="companyProvince != null">company_province = #{companyProvince,jdbcType=VARCHAR},</if>
+            <if test="companyCity != null">company_city = #{companyCity,jdbcType=VARCHAR},</if>
+            <if test="companyAddr != null">company_addr = #{companyAddr,jdbcType=VARCHAR},</if>
+            <if test="bussinessLicenseImage != null">bussiness_license_image = #{bussinessLicenseImage,jdbcType=VARCHAR},</if>
+            <if test="bankName != null">bank_name = #{bankName,jdbcType=VARCHAR},</if>
+            <if test="bankNameBranch != null">bank_name_branch = #{bankNameBranch,jdbcType=VARCHAR},</if>
+            <if test="bankCode != null">bank_code = #{bankCode,jdbcType=VARCHAR},</if>
+            <if test="legalPerson != null">legalPerson = #{legalPerson,jdbcType=VARCHAR},</if>
+            <if test="legalIdentityId != null">legal_identity_id = #{legalIdentityId,jdbcType=VARCHAR},</if>
+            <if test="legalPhone != null">legal_phone = #{legalPhone,jdbcType=VARCHAR},</if>
+            <if test="contactName != null">contact_name = #{contactName,jdbcType=VARCHAR},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone,jdbcType=VARCHAR},</if>
+            <if test="contactAddress != null">contact_address = #{contactAddress,jdbcType=VARCHAR},</if>
+            <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+            <if test="customerServicePhone != null">customer_service_phone = #{customerServicePhone,jdbcType=VARCHAR},</if>
+            <if test="unitLogo != null">unit_logo = #{unitLogo,jdbcType=VARCHAR},</if>
+            <if test="state != null">state = #{state,jdbcType=TINYINT},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteSupplierInfoById" parameterType="java.lang.Long">
+        DELETE FROM supplier_info WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteSupplierInfoByIds" parameterType="java.lang.String">
+        DELETE FROM supplier_info WHERE id IN (
+            <foreach collection="array" item="id" separator=",">
+                #{id,jdbcType=INTEGER}
+            </foreach>
+        )
+    </delete>
+</mapper>

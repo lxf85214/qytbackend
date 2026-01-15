@@ -11,6 +11,8 @@ CREATE TABLE `product_info` (
   `category_third_id` INT(11) NOT NULL COMMENT '商品三级分类ID（关联分类表）',
   `brand_id` INT(11) NOT NULL COMMENT '品牌ID（关联品牌表）',
   `main_image` VARCHAR(255) NOT NULL COMMENT '主图URL',
+  `thumbnail_image` VARCHAR(255) COMMENT '预览图URL',
+  `listing_image` VARCHAR(255) COMMENT '列表图URL',
   `detail_images` TEXT COMMENT '详情图URL（多个用逗号分隔）',
   `description` TEXT COMMENT '商品描述',
   `specifications` TEXT COMMENT '商品规格（JSON格式存储）',
@@ -570,4 +572,39 @@ CREATE TABLE `zone_brand_group_relation` (
   PRIMARY KEY (`id`),
   KEY `idx_zone_id` (`zone_id`),
   KEY `idx_brand_group_id` (`brand_group_id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后端管理系统-首页专区品牌组映射表';
+
+-- 供应商信息表
+CREATE TABLE `supplier_info` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '用户唯一标识（就是user_id）',
+  `supplier_name` VARCHAR(50) COMMENT '供应商名称：商品页展示名',
+  `company_name` VARCHAR(50) COMMENT '企业名称：唯一',
+  `supplier_type` TINYINT(4) COMMENT '供应商类型：1生产厂商、2大型电商、3普通电商、4常规代理商',
+  `bussiness_license` VARCHAR(64) COMMENT '营业执照注册号',
+  `tax_license` VARCHAR(64) COMMENT '税务登记号',
+  `company_province` VARCHAR(16) COMMENT '企业注册省',
+  `company_city` VARCHAR(16) COMMENT '企业注册市',
+  `company_addr` VARCHAR(512) COMMENT '企业注册详细地址',
+  `bussiness_license_image` VARCHAR(512) COMMENT '营业执照图片',
+  `bank_name` VARCHAR(32) COMMENT '开户行',
+  `bank_name_branch` VARCHAR(32) COMMENT '开户支行',
+  `bank_code` VARCHAR(32) COMMENT '银行账号',
+  `legalPerson` VARCHAR(8) COMMENT '法人姓名',
+  `legal_identity_id` VARCHAR(32) COMMENT '法人身份证号',
+  `legal_phone` VARCHAR(32) COMMENT '法人电话',
+  `contact_name` VARCHAR(8) COMMENT '联系人姓名',
+  `contact_phone` VARCHAR(32) COMMENT '联系人电话',
+  `contact_address` VARCHAR(512) COMMENT '联系地址',
+  `email` VARCHAR(32) COMMENT 'email',
+  `customer_service_phone` VARCHAR(16) COMMENT '客服电话',
+  `unit_logo` VARCHAR(512) COMMENT '徽标LOGO图片',
+  `state` TINYINT(4) COMMENT '状态：1-提交申请;2-审核通过;3-缴纳保证金;4-审核失败;5-注册未完成;6-冻结',
+  `create_pin` VARCHAR(50) NOT NULL COMMENT '创建人',
+  `create_time` DATETIME NOT NULL COMMENT '创建时间',
+  `update_pin` VARCHAR(50) COMMENT '更新人',
+  `update_time` DATETIME COMMENT '更新时间',
+  `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_company_name` (`company_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='供应商信息表';

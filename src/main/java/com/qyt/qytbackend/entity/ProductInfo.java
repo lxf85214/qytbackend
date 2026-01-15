@@ -16,6 +16,8 @@ public class ProductInfo extends BaseEntity implements Serializable {
     private Integer categoryThirdId;
     private Integer brandId;
     private String mainImage;
+    private String thumbnailImage;
+    private String listingImage;
     private String detailImages;
     private String description;
     private String specifications;

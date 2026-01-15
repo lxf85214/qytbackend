@@ -11,7 +11,9 @@
         <result column="category_third_id" property="categoryThirdId" jdbcType="INTEGER" />
         <result column="brand_id" property="brandId" jdbcType="INTEGER" />
         <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
-        <result column="detail_images" property="detailImages" jdbcType="VARCHAR" />
+        <result column="thumbnail_image" property="thumbnailImage" jdbcType="VARCHAR" />
+        <result column="listing_image" property="listingImage" jdbcType="VARCHAR" />
+        <result column="detail_images" property="detailImages" jdbcType="TEXT" />
         <result column="description" property="description" jdbcType="VARCHAR" />
         <result column="specifications" property="specifications" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="TINYINT" />
@@ -32,6 +34,8 @@
             category_third_id,
             brand_id,
             main_image,
+            thumbnail_image,
+            listing_image,
             detail_images,
             description,
             specifications,
@@ -49,6 +53,8 @@
             #{categoryThirdId,jdbcType=INTEGER},
             #{brandId,jdbcType=INTEGER},
             #{mainImage,jdbcType=VARCHAR},
+            #{thumbnailImage,jdbcType=VARCHAR},
+            #{listingImage,jdbcType=VARCHAR},
             #{detailImages,jdbcType=VARCHAR},
             #{description,jdbcType=VARCHAR},
             #{specifications,jdbcType=VARCHAR},
@@ -77,6 +83,8 @@
             <if test="categoryThirdId != null">category_third_id = #{categoryThirdId,jdbcType=INTEGER},</if>
             <if test="brandId != null">brand_id = #{brandId,jdbcType=INTEGER},</if>
             <if test="mainImage != null">main_image = #{mainImage,jdbcType=VARCHAR},</if>
+            <if test="thumbnailImage != null">thumbnail_image = #{thumbnailImage,jdbcType=VARCHAR},</if>
+            <if test="listingImage != null">listing_image = #{listingImage,jdbcType=VARCHAR},</if>
             <if test="detailImages != null">detail_images = #{detailImages,jdbcType=VARCHAR},</if>
             <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
             <if test="specifications != null">specifications = #{specifications,jdbcType=VARCHAR},</if>
