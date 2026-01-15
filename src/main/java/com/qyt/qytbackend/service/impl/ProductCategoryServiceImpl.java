@@ -4,12 +4,15 @@ import com.qyt.qytbackend.entity.ProductCategory;
 import com.qyt.qytbackend.mapper.ProductCategoryMapper;
 import com.qyt.qytbackend.service.ProductCategoryService;
 import com.qyt.qytbackend.dto.CategoryCreateRequestDTO;
+import com.qyt.qytbackend.dto.CategoryPageRequestDTO;
+import com.qyt.qytbackend.dto.CategoryPageResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 商品分类服务实现类
@@ -50,5 +53,55 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategoryMapper.insert(productCategory);
 
         return productCategory;
+    }
+
+    @Override
+    public CategoryPageResponseDTO pageQueryCategories(CategoryPageRequestDTO requestDTO) {
+        log.info("开始分页查询商品分类: 层级={}, 分类名称={}, 页码={}, 页大小={}",
+                requestDTO.getLevel(), requestDTO.getCategoryName(), requestDTO.getPageNum(), requestDTO.getPageSize());
+
+        // 计算偏移量
+        int offset = (requestDTO.getPageNum() - 1) * requestDTO.getPageSize();
+
+        // 查询分页数据
+        List<ProductCategory> categories = productCategoryMapper.selectByPage(
+                requestDTO.getLevel(),
+                requestDTO.getCategoryName(),
+                offset,
+                requestDTO.getPageSize()
+        );
+
+        // 查询总记录数
+        int total = productCategoryMapper.selectCount(
+                requestDTO.getLevel(),
+                requestDTO.getCategoryName()
+        );
+
+        // 构建响应数据
+        CategoryPageResponseDTO responseDTO = new CategoryPageResponseDTO();
+        responseDTO.setTotal(total);
+        responseDTO.setPageNum(requestDTO.getPageNum());
+        responseDTO.setPageSize(requestDTO.getPageSize());
+
+        // 为每个分类添加子分类列表
+        List<CategoryPageResponseDTO.CategoryWithChildrenDTO> categoryWithChildrenList = categories.stream()
+                .map(category -> {
+                    CategoryPageResponseDTO.CategoryWithChildrenDTO categoryWithChildren = new CategoryPageResponseDTO.CategoryWithChildrenDTO();
+                    categoryWithChildren.setCategory(category);
+                    // 查询子分类
+                    List<ProductCategory> children = getChildCategories(category.getId().intValue());
+                    categoryWithChildren.setChildren(children);
+                    return categoryWithChildren;
+                })
+                .collect(Collectors.toList());
+
+        responseDTO.setList(categoryWithChildrenList);
+
+        return responseDTO;
+    }
+
+    @Override
+    public List<ProductCategory> getChildCategories(Integer parentId) {
+        return productCategoryMapper.selectByParentId(parentId);
     }
 }

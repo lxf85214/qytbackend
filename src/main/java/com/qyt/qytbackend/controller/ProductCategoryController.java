@@ -3,6 +3,8 @@ package com.qyt.qytbackend.controller;
 import com.qyt.qytbackend.entity.ProductCategory;
 import com.qyt.qytbackend.service.ProductCategoryService;
 import com.qyt.qytbackend.dto.CategoryCreateRequestDTO;
+import com.qyt.qytbackend.dto.CategoryPageRequestDTO;
+import com.qyt.qytbackend.dto.CategoryPageResponseDTO;
 import com.qyt.qytbackend.dto.ApiResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -58,6 +60,34 @@ public class ProductCategoryController {
             return ApiResponseDTO.success(productCategory);
         } catch (Exception e) {
             log.error("创建分类失败: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 分页查询商品分类
+     *
+     * @param requestDTO 分类分页查询请求DTO
+     * @return API响应
+     */
+    @PostMapping("/page")
+    @Operation(summary = "分页查询商品分类", description = "根据分类层级、分类名称模糊匹配进行分页查询")
+    public ApiResponseDTO<CategoryPageResponseDTO> pageQueryCategories(@Parameter(description = "分类分页查询请求参数") @RequestBody CategoryPageRequestDTO requestDTO) {
+        try {
+            // 设置默认值
+            if (requestDTO.getPageNum() == null || requestDTO.getPageNum() <= 0) {
+                requestDTO.setPageNum(1);
+            }
+            if (requestDTO.getPageSize() == null || requestDTO.getPageSize() <= 0) {
+                requestDTO.setPageSize(10);
+            }
+
+            // 分页查询
+            CategoryPageResponseDTO responseDTO = productCategoryService.pageQueryCategories(requestDTO);
+
+            return ApiResponseDTO.success(responseDTO);
+        } catch (Exception e) {
+            log.error("分页查询分类失败: {}", e.getMessage(), e);
             throw e;
         }
     }
