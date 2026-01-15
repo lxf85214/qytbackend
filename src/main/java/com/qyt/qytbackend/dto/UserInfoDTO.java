@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Schema(name = "UserInfoDTO", description = "用户信息参数")
 public class UserInfoDTO {
-    @Schema(description = "登录用户名", required = true)
+    @Schema(description = "登录用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     private String username;
     @Schema(description = "姓名")
     private String name;
