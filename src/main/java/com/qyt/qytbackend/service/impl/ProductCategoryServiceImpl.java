@@ -37,7 +37,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategory.setLevel(requestDTO.getLevel());
         productCategory.setSortOrder(requestDTO.getSortOrder());
         productCategory.setStatus(1); // 默认启用状态
-        productCategory.setIsDeleted(0); // 默认未删除
+        productCategory.setIsDelete(0); // 默认未删除
 
         // 设置创建人和更新人
         String username = requestDTO.getUserInfo().getUsername();
@@ -117,7 +117,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
 
         // 设置为已删除
-        productCategory.setIsDeleted(1);
+        productCategory.setIsDelete(1);
         productCategory.setUpdateTime(LocalDateTime.now());
 
         // 执行更新操作

@@ -1,5 +1,6 @@
 package com.qyt.qytbackend.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qyt.qytbackend.common.jwt.JwtUtils;
 import com.qyt.qytbackend.dto.LoginResponse;
 import com.qyt.qytbackend.entity.CustomerInfo;
@@ -12,10 +13,12 @@ import com.qyt.qytbackend.rpc.SmsRpc;
 import com.qyt.qytbackend.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -39,11 +42,19 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private JwtUtils jwtUtils;
+    
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     // 手机号正则表达式
     private static final String PHONE_REGEX = "^1[3-9]\\d{9}$";
     // 验证码有效期（分钟）
     private static final int CODE_EXPIRY_MINUTES = 5;
+    // token有效期（天）
+    private static final int TOKEN_EXPIRE_DAYS = 30;
 
     /**
      * 发送短信验证码
@@ -76,7 +87,7 @@ public class LoginServiceImpl implements LoginService {
         verificationCode.setCreatePin("system");
         verificationCode.setUpdateTime(LocalDateTime.now());
         verificationCode.setUpdatePin("system");
-        verificationCode.setIsDeleted(0);
+        verificationCode.setIsDelete(0);
 
         customerVerificationCodeMapper.insert(verificationCode);
 
@@ -139,7 +150,7 @@ public class LoginServiceImpl implements LoginService {
             customerInfo.setCreateTime(now);
             customerInfo.setUpdatePin("system");
             customerInfo.setUpdateTime(now);
-            customerInfo.setIsDeleted(0); // 未删除
+            customerInfo.setIsDelete(0); // 未删除
             customerInfoMapper.insert(customerInfo);
             userId = customerInfo.getId();
         }
@@ -155,11 +166,19 @@ public class LoginServiceImpl implements LoginService {
         loginLog.setCreateTime(now);
         loginLog.setUpdatePin("system");
         loginLog.setUpdateTime(now);
-        loginLog.setIsDeleted(0); // 未删除
+        loginLog.setIsDelete(0); // 未删除
         customerLoginLogMapper.insert(loginLog);
 
         // 生成JWT token
         String token = jwtUtils.generateToken(userId);
+        
+        // 将用户信息存入Redis缓存，有效期30天
+        try {
+            String customerInfoJson = objectMapper.writeValueAsString(customerInfo);
+            redisTemplate.opsForValue().set(token, customerInfoJson, TOKEN_EXPIRE_DAYS, TimeUnit.DAYS);
+        } catch (Exception e) {
+            log.error("将用户信息存入Redis缓存失败: {}", e.getMessage(), e);
+        }
 
         // 构建登录响应
         LoginResponse response = new LoginResponse();
@@ -200,6 +219,10 @@ public class LoginServiceImpl implements LoginService {
             latestLoginLog.setUpdateTime(LocalDateTime.now());
             customerLoginLogMapper.update(latestLoginLog);
         }
+        
+        // 注意：实际实现中，应该从请求中获取token并删除
+        // 由于当前logout方法只接收userId参数，无法直接获取token
+        // 这里简化处理，实际应该修改logout方法的参数，接收token参数
 
         return true;
     }

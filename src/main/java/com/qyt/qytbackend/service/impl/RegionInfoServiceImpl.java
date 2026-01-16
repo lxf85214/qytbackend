@@ -39,7 +39,7 @@ public class RegionInfoServiceImpl implements RegionInfoService {
         regionInfo.setParentId(requestDTO.getParentId());
         regionInfo.setLevel(requestDTO.getLevel());
         regionInfo.setRegionCode(requestDTO.getRegionCode());
-        regionInfo.setIsDeleted(0); // 默认未删除
+        regionInfo.setIsDelete(0); // 默认未删除
 
         // 设置创建人和更新人
         String username = requestDTO.getCreatePin();
@@ -69,7 +69,7 @@ public class RegionInfoServiceImpl implements RegionInfoService {
         }
 
         // 设置为已删除
-        regionInfo.setIsDeleted(1);
+        regionInfo.setIsDelete(1);
         regionInfo.setUpdateTime(LocalDateTime.now());
 
         // 执行更新操作
