@@ -35,5 +35,5 @@ public class BaseEntity implements Serializable {
     /**
      * 逻辑删除标记（0-未删除，1-已删除）
      */
-    private Integer isDeleted;
+    private Integer isDelete;
 }

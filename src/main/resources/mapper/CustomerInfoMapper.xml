@@ -20,7 +20,7 @@
         <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <result column="is_delete" property="isDeleted" jdbcType="TINYINT" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
     </resultMap>
 
     <!-- 插入语句 -->
@@ -60,7 +60,7 @@
             #{createTime,jdbcType=TIMESTAMP},
             #{updatePin,jdbcType=VARCHAR},
             #{updateTime,jdbcType=TIMESTAMP},
-            #{isDeleted,jdbcType=TINYINT}
+            #{isDelete,jdbcType=TINYINT}
         )
     </insert>
 
@@ -89,7 +89,7 @@
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
             <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
-            <if test="isDeleted != null">is_delete = #{isDeleted,jdbcType=TINYINT},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
         </set>
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
