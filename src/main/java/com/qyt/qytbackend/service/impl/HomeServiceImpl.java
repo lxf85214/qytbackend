@@ -34,12 +34,12 @@ public class HomeServiceImpl implements HomeService {
     private ProductInfoMapper productInfoMapper;
 
     @Override
-    public ApiResponseDTO<HomeRecommendData> getHomeRecommendData() {
+    public ApiResponseDTO<HomeRecommendData> getHomeRecommendData(Integer queryType) {
         try {
-            log.info("开始获取首页推荐数据");
+            log.info("开始获取首页推荐数据，queryType={}", queryType);
 
             // 1. 查询所有推荐专区
-            List<ZoneConfig> allZones = zoneConfigMapper.selectHomeRecommendZones(1);
+            List<ZoneConfig> allZones = zoneConfigMapper.selectHomeRecommendZones(queryType);
 
             // 2. 按display_position分组
             Map<Integer, List<ZoneConfig>> zoneByPosition = allZones.stream()

@@ -16,7 +16,7 @@ import java.time.Duration;
 /**
  * OSS配置类
  */
-@Configuration
+// @Configuration
 public class OssConfig {
 
     @Value("${oss.access-key}")
@@ -44,7 +44,7 @@ public class OssConfig {
      * 初始化S3客户端
      * @return S3Client实例
      */
-    @Bean
+    // @Bean
     public S3Client s3Client() {
         // 创建凭证
         AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
@@ -77,7 +77,7 @@ public class OssConfig {
      * 获取OSS配置
      * @return OssProperties实例
      */
-    @Bean
+    // @Bean
     public OssProperties ossProperties() {
         OssProperties properties = new OssProperties();
         properties.setAccessKey(accessKey);

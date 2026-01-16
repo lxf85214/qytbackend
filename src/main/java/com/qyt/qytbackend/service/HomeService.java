@@ -10,7 +10,8 @@ public interface HomeService {
     /**
      * 获取首页推荐数据
      *
+     * @param queryType 查询类型，非必输，不传时默认为1，对应匹配zone_config表中item_type字段
      * @return 首页推荐数据
      */
-    ApiResponseDTO<HomeRecommendData> getHomeRecommendData();
+    ApiResponseDTO<HomeRecommendData> getHomeRecommendData(Integer queryType);
 }

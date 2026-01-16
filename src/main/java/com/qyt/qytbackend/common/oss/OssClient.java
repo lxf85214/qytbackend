@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * OSS客户端工具类
  */
-@Component
+// @Component
 @Slf4j
 public class OssClient {
 

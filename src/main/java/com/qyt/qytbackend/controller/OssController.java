@@ -21,9 +21,9 @@ import java.util.UUID;
 /**
  * OSS文件操作控制器
  */
-@RestController
-@RequestMapping("/api/oss")
-@Tag(name = "OSS文件操作", description = "OSS文件上传、下载相关的API接口")
+// @RestController
+// @RequestMapping("/api/oss")
+// @Tag(name = "OSS文件操作", description = "OSS文件上传、下载相关的API接口")
 @Slf4j
 public class OssController {
 

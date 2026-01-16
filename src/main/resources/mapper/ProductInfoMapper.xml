@@ -105,7 +105,10 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -116,7 +119,10 @@
 
     <!-- 根据商品名称查询 -->
     <select id="selectByProductName" parameterType="java.lang.String" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -127,7 +133,10 @@
 
     <!-- 根据分类ID查询 -->
     <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -140,7 +149,10 @@
 
     <!-- 根据品牌ID查询 -->
     <select id="selectByBrandId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -151,7 +163,10 @@
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -162,7 +177,10 @@
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
         FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
@@ -173,7 +191,11 @@
 
     <!-- 分页查询商品列表 -->
     <select id="selectProductPage" parameterType="map" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales FROM product_info pi
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
         WHERE pi.status = 1 AND pi.is_delete = 0
@@ -207,7 +229,11 @@
 
     <!-- 批量查询商品信息 -->
     <select id="selectByIds" parameterType="map" resultMap="ProductInfoResultMap">
-        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales FROM product_info pi
+        SELECT pi.id, pi.product_name, pi.district, pi.category_first_id, pi.category_second_id, pi.category_third_id, 
+               pi.brand_id, pi.main_image, pi.thumbnail_image, pi.listing_image, pi.detail_images, pi.description, 
+               pi.specifications, pi.status, pi.create_pin, pi.create_time, pi.update_pin, pi.update_time, pi.is_delete,
+               pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
         INNER JOIN product_price pp ON pi.id = pp.product_id
         INNER JOIN product_stock ps ON pi.id = ps.product_id
         WHERE pi.id IN

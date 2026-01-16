@@ -56,21 +56,25 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="ZoneProductGroupResultMap">
-        SELECT * FROM zone_product_group WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
+        SELECT id, group_name, product_id, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_product_group WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据商品ID查询 -->
     <select id="selectByProductId" parameterType="java.lang.Long" resultMap="ZoneProductGroupResultMap">
-        SELECT * FROM zone_product_group WHERE product_id = #{productId,jdbcType=BIGINT} AND is_delete = 0
+        SELECT id, group_name, product_id, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_product_group WHERE product_id = #{productId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ZoneProductGroupResultMap">
-        SELECT * FROM zone_product_group WHERE is_delete = 0
+        SELECT id, group_name, product_id, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_product_group WHERE is_delete = 0
     </select>
 
     <!-- 根据group_id查询商品组下的所有商品 -->
     <select id="selectByGroupId" parameterType="java.lang.Long" resultMap="ZoneProductGroupResultMap">
-        SELECT * FROM zone_product_group WHERE id = #{groupId,jdbcType=BIGINT} AND is_delete = 0
+        SELECT id, group_name, product_id, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_product_group WHERE id = #{groupId,jdbcType=BIGINT} AND is_delete = 0
     </select>
 </mapper>

@@ -80,21 +80,38 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
+        SELECT id, item_type, item_name, zone_name, is_display, default_image, description, 
+               display_position, display_product, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_config WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
     </select>
 
     <!-- 根据类目查询 -->
     <select id="selectByItemType" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE item_type = #{itemType,jdbcType=INTEGER} AND is_delete = 0
+        SELECT id, item_type, item_name, zone_name, is_display, default_image, description, 
+               display_position, display_product, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_config WHERE item_type = #{itemType,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 根据是否展示查询 -->
     <select id="selectByIsDisplay" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE is_display = #{isDisplay,jdbcType=INTEGER} AND is_delete = 0
+        SELECT id, item_type, item_name, zone_name, is_display, default_image, description, 
+               display_position, display_product, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_config WHERE is_display = #{isDisplay,jdbcType=INTEGER} AND is_delete = 0
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ZoneConfigResultMap">
-        SELECT * FROM zone_config WHERE is_delete = 0
+        SELECT id, item_type, item_name, zone_name, is_display, default_image, description, 
+               display_position, display_product, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_config WHERE is_delete = 0
+    </select>
+
+    <!-- 查询首页推荐专区 -->
+    <select id="selectHomeRecommendZones" parameterType="java.lang.Integer" resultMap="ZoneConfigResultMap">
+        SELECT id, item_type, item_name, zone_name, is_display, default_image, description, 
+               display_position, display_product, create_pin, create_time, update_pin, update_time, is_delete 
+        FROM zone_config 
+        WHERE is_display = 1 AND is_delete = 0 AND item_type = #{itemType,jdbcType=INTEGER}
+        ORDER BY display_position ASC, id ASC
     </select>
 </mapper>
