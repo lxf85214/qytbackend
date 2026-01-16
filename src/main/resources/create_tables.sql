@@ -42,7 +42,9 @@ CREATE TABLE `product_price` (
   `update_time` DATETIME COMMENT '更新时间',
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
-  KEY `idx_product_id` (`product_id`)
+  KEY `idx_product_id` (`product_id`),
+  KEY `idx_prod_effective_selling` (`product_id`, `effective_time`, `selling_price`),
+  KEY `idx_effective_expiry` (`effective_time`, `expiry_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品价格表';
 
 -- 3. 商品库存表
@@ -63,7 +65,8 @@ CREATE TABLE `product_stock` (
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
   KEY `idx_product_id` (`product_id`),
-  KEY `idx_warehouse_id` (`warehouse_id`)
+  KEY `idx_warehouse_id` (`warehouse_id`),
+  KEY `idx_prod_avail` (`product_id`, `available_quantity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品库存表';
 
 -- 4. 商品属性表
@@ -506,14 +509,18 @@ CREATE TABLE `zone_config` (
   `is_display` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否展示：0-不展示，1-展示，默认1',
   `default_image` VARCHAR(255) NOT NULL COMMENT '默认图片：用于专区未自定义图片时的展示',
   `description` VARCHAR(500) COMMENT '描述：对专区内容或规则的补充说明',
+  `display_position` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '展示位置：0-第一行，1-其他',
+  `display_product` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '是否同步展示商品：0-否，查询结果不返回商品信息；1-是，查询结果同步返回商品信息',
   `create_pin` VARCHAR(50) NOT NULL COMMENT '创建人',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
   `update_pin` VARCHAR(50) COMMENT '更新人',
   `update_time` DATETIME COMMENT '更新时间',
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
-  KEY `idx_item_type` (`item_type`),
-  KEY `idx_is_display` (`is_display`)
+    KEY `idx_item_type` (`item_type`),
+    KEY `idx_is_display` (`is_display`),
+    KEY `idx_display_position` (`display_position`),
+    KEY `idx_recommend_query` (`is_display`, `is_delete`, `item_type`, `display_position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后端管理系统-首页专区配置表';
 
 -- 2. 后端管理系统-首页专区商品组表
@@ -527,7 +534,8 @@ CREATE TABLE `zone_product_group` (
   `update_time` DATETIME COMMENT '更新时间',
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
-  KEY `idx_product_id` (`product_id`)
+    KEY `idx_product_id` (`product_id`),
+    KEY `idx_group_id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后端管理系统-首页专区商品组表';
 
 -- 3. 后端管理系统-首页专区商品组映射表
@@ -541,8 +549,9 @@ CREATE TABLE `zone_product_group_relation` (
   `update_time` DATETIME COMMENT '更新时间',
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
-  KEY `idx_zone_id` (`zone_id`),
-  KEY `idx_group_id` (`group_id`)
+    KEY `idx_zone_id` (`zone_id`),
+    KEY `idx_group_id` (`group_id`),
+    KEY `idx_zone_del` (`zone_id`, `is_delete`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后端管理系统-首页专区商品组映射表';
 
 -- 4. 后端管理系统-首页专区品牌组表
@@ -570,8 +579,9 @@ CREATE TABLE `zone_brand_group_relation` (
   `update_time` DATETIME COMMENT '更新时间',
   `is_delete` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志：0表示未删除，1表示已删除',
   PRIMARY KEY (`id`),
-  KEY `idx_zone_id` (`zone_id`),
-  KEY `idx_brand_group_id` (`brand_group_id`)
+    KEY `idx_zone_id` (`zone_id`),
+    KEY `idx_group_id` (`group_id`),
+    KEY `idx_zone_del` (`zone_id`, `is_delete`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后端管理系统-首页专区品牌组映射表';
 

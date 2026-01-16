@@ -34,6 +34,14 @@ public class ZoneConfig extends BaseEntity implements Serializable {
      */
     private String description;
     /**
+     * 展示位置：0-第一行，1-其他
+     */
+    private Integer displayPosition;
+    /**
+     * 是否同步展示商品：0-否，1-是
+     */
+    private Integer displayProduct;
+    /**
      * 创建人
      */
     private String createPin;

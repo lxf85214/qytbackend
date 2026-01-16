@@ -22,6 +22,11 @@
         <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+        <result column="selling_price" property="sellingPrice" jdbcType="DECIMAL" />
+        <result column="bulk_purchase_price" property="bulkPurchasePrice" jdbcType="DECIMAL" />
+        <result column="available_quantity" property="availableQuantity" jdbcType="INTEGER" />
+        <result column="sales" property="sales" jdbcType="INTEGER" />
     </resultMap>
 
     <!-- 插入语句 -->
@@ -100,42 +105,85 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE id = #{id,jdbcType=INTEGER} AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.id = #{id,jdbcType=INTEGER} AND pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 根据商品名称查询 -->
     <select id="selectByProductName" parameterType="java.lang.String" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%') AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.product_name LIKE CONCAT('%', #{productName,jdbcType=VARCHAR}, '%') AND pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 根据分类ID查询 -->
     <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE (category_first_id = #{categoryId,jdbcType=INTEGER} 
-        OR category_second_id = #{categoryId,jdbcType=INTEGER} 
-        OR category_third_id = #{categoryId,jdbcType=INTEGER}) AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE (pi.category_first_id = #{categoryId,jdbcType=INTEGER} 
+        OR pi.category_second_id = #{categoryId,jdbcType=INTEGER} 
+        OR pi.category_third_id = #{categoryId,jdbcType=INTEGER}) AND pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 根据品牌ID查询 -->
     <select id="selectByBrandId" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE brand_id = #{brandId,jdbcType=INTEGER} AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.brand_id = #{brandId,jdbcType=INTEGER} AND pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 根据状态查询 -->
     <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE status = #{status,jdbcType=INTEGER} AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.status = #{status,jdbcType=INTEGER} AND pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info WHERE is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales 
+        FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.is_delete = 0
+        AND pp.is_delete = 0 AND ps.is_delete = 0
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
     </select>
 
     <!-- 分页查询商品列表 -->
     <select id="selectProductPage" parameterType="map" resultMap="ProductInfoResultMap">
-        SELECT * FROM product_info 
-        WHERE status = 1 AND is_delete = 0
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.status = 1 AND pi.is_delete = 0
+        AND pp.selling_price > 0.00 
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
+        AND pp.is_delete = 0
+        AND ps.available_quantity > 0
+        AND ps.is_delete = 0
         <if test="thirdCategoryId != null">
-            AND category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
+            AND pi.category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
         </if>
         ORDER BY RAND()
         LIMIT #{pageSize,jdbcType=INTEGER} OFFSET #{pageNum,jdbcType=INTEGER}
@@ -143,10 +191,34 @@
 
     <!-- 查询商品总数 -->
     <select id="selectProductCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
-        SELECT COUNT(*) FROM product_info 
-        WHERE status = 1 AND is_delete = 0
+        SELECT COUNT(DISTINCT pi.id) FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.status = 1 AND pi.is_delete = 0
+        AND pp.selling_price > 0.00 
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
+        AND pp.is_delete = 0
+        AND ps.available_quantity > 0
+        AND ps.is_delete = 0
         <if test="thirdCategoryId != null">
-            AND category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
+            AND pi.category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
         </if>
+    </select>
+
+    <!-- 批量查询商品信息 -->
+    <select id="selectByIds" parameterType="map" resultMap="ProductInfoResultMap">
+        SELECT pi.*, pp.original_price, pp.selling_price, pp.bulk_purchase_price, ps.available_quantity, ps.sales FROM product_info pi
+        INNER JOIN product_price pp ON pi.id = pp.product_id
+        INNER JOIN product_stock ps ON pi.id = ps.product_id
+        WHERE pi.id IN
+        <foreach collection="productIds" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+        AND pi.status = 1 AND pi.is_delete = 0
+        AND pp.selling_price > 0.00 
+        AND NOW() BETWEEN pp.effective_time AND IFNULL(pp.expiry_time, NOW())
+        AND pp.is_delete = 0
+        AND ps.available_quantity > 0
+        AND ps.is_delete = 0
     </select>
 </mapper>

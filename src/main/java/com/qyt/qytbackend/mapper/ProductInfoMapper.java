@@ -39,4 +39,11 @@ public interface ProductInfoMapper {
      * @return 商品总数
      */
     Long selectProductCount(@Param("thirdCategoryId") Integer thirdCategoryId);
+
+    /**
+     * 批量查询商品信息
+     * @param productIds 商品ID列表
+     * @return 商品列表
+     */
+    List<ProductInfo> selectByIds(@Param("productIds") List<Integer> productIds);
 }

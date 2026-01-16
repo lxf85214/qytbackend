@@ -10,6 +10,8 @@
         <result column="is_display" property="isDisplay" jdbcType="TINYINT" />
         <result column="default_image" property="defaultImage" jdbcType="VARCHAR" />
         <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="display_position" property="displayPosition" jdbcType="TINYINT" />
+        <result column="display_product" property="displayProduct" jdbcType="TINYINT" />
         <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
@@ -26,6 +28,8 @@
             is_display,
             default_image,
             description,
+            display_position,
+            display_product,
             create_pin,
             create_time,
             update_pin,
@@ -38,6 +42,8 @@
             #{isDisplay,jdbcType=TINYINT},
             #{defaultImage,jdbcType=VARCHAR},
             #{description,jdbcType=VARCHAR},
+            #{displayPosition,jdbcType=TINYINT},
+            #{displayProduct,jdbcType=TINYINT},
             #{createPin,jdbcType=VARCHAR},
             #{createTime,jdbcType=TIMESTAMP},
             #{updatePin,jdbcType=VARCHAR},
@@ -61,6 +67,8 @@
             <if test="isDisplay != null">is_display = #{isDisplay,jdbcType=TINYINT},</if>
             <if test="defaultImage != null">default_image = #{defaultImage,jdbcType=VARCHAR},</if>
             <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+            <if test="displayPosition != null">display_position = #{displayPosition,jdbcType=TINYINT},</if>
+            <if test="displayProduct != null">display_product = #{displayProduct,jdbcType=TINYINT},</if>
             <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>

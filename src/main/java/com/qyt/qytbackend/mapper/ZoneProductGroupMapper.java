@@ -17,4 +17,11 @@ public interface ZoneProductGroupMapper {
     List<ZoneProductGroup> selectByProductId(@Param("productId") Long productId);
 
     List<ZoneProductGroup> selectAll();
+
+    /**
+     * 根据group_id查询商品组下的所有商品
+     * @param groupId 商品组ID
+     * @return 商品列表
+     */
+    List<ZoneProductGroup> selectByGroupId(@Param("groupId") Long groupId);
 }

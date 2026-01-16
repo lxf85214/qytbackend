@@ -19,4 +19,11 @@ public interface ZoneConfigMapper {
     List<ZoneConfig> selectByIsDisplay(@Param("isDisplay") Integer isDisplay);
 
     List<ZoneConfig> selectAll();
+
+    /**
+     * 查询首页推荐专区
+     * @param itemType 类目类型
+     * @return 专区列表
+     */
+    List<ZoneConfig> selectHomeRecommendZones(@Param("itemType") Integer itemType);
 }

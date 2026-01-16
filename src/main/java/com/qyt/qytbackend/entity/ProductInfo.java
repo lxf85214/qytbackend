@@ -3,6 +3,7 @@ package com.qyt.qytbackend.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -65,6 +66,31 @@ public class ProductInfo extends BaseEntity implements Serializable {
      * 创建人
      */
     private String createPin;
+    /**
+     * 商品原价：商品的原始定价，不包含任何折扣
+     */
+    private BigDecimal originalPrice;
+
+    /**
+     * 商品售价：商品当前的销售价格，可能包含日常折扣
+     */
+    private BigDecimal sellingPrice;
+
+    /**
+     * 集采价格：商品的集中采购价格，适用于批量采购场景
+     */
+    private BigDecimal bulkPurchasePrice;
+
+    /**
+     * 可用库存数量：可被销售的实际可用库存
+     */
+    private Integer availableQuantity;
+
+    /**
+     * 累计销量
+     */
+    private Integer sales;
+
     /**
      * 更新人
      */

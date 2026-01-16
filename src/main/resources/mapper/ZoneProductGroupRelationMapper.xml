@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyt.qytbackend.mapper.ZoneProductGroupRelationMapper">
+    <!-- 结果映射 -->
+    <resultMap id="ZoneProductGroupRelationResultMap" type="ZoneProductGroupRelation">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="zone_id" property="zoneId" jdbcType="BIGINT" />
+        <result column="group_id" property="groupId" jdbcType="BIGINT" />
+        <result column="create_pin" property="createPin" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_pin" property="updatePin" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    </resultMap>
+
+    <!-- 插入语句 -->
+    <insert id="insert" parameterType="ZoneProductGroupRelation" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zone_product_group_relation (
+            zone_id,
+            group_id,
+            create_pin,
+            create_time,
+            update_pin,
+            update_time,
+            is_delete
+        ) VALUES (
+            #{zoneId,jdbcType=BIGINT},
+            #{groupId,jdbcType=BIGINT},
+            #{createPin,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updatePin,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 删除语句 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM zone_product_group_relation WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 更新语句 -->
+    <update id="update" parameterType="ZoneProductGroupRelation">
+        UPDATE zone_product_group_relation
+        <set>
+            <if test="zoneId != null">zone_id = #{zoneId,jdbcType=BIGINT},</if>
+            <if test="groupId != null">group_id = #{groupId,jdbcType=BIGINT},</if>
+            <if test="createPin != null">create_pin = #{createPin,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updatePin != null">update_pin = #{updatePin,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null">is_delete = #{isDelete,jdbcType=TINYINT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="ZoneProductGroupRelationResultMap">
+        SELECT * FROM zone_product_group_relation WHERE id = #{id,jdbcType=BIGINT} AND is_delete = 0
+    </select>
+
+    <!-- 根据专区ID查询 -->
+    <select id="selectByZoneId" parameterType="java.lang.Long" resultMap="ZoneProductGroupRelationResultMap">
+        SELECT * FROM zone_product_group_relation WHERE zone_id = #{zoneId,jdbcType=BIGINT} AND is_delete = 0
+    </select>
+
+    <!-- 根据商品组ID查询 -->
+    <select id="selectByGroupId" parameterType="java.lang.Long" resultMap="ZoneProductGroupRelationResultMap">
+        SELECT * FROM zone_product_group_relation WHERE group_id = #{groupId,jdbcType=BIGINT} AND is_delete = 0
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="ZoneProductGroupRelationResultMap">
+        SELECT * FROM zone_product_group_relation WHERE is_delete = 0
+    </select>
+</mapper>
