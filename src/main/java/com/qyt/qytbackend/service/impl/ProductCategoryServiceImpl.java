@@ -6,6 +6,7 @@ import com.qyt.qytbackend.service.ProductCategoryService;
 import com.qyt.qytbackend.dto.CategoryCreateRequestDTO;
 import com.qyt.qytbackend.dto.CategoryPageRequestDTO;
 import com.qyt.qytbackend.dto.CategoryPageResponseDTO;
+import com.qyt.qytbackend.common.context.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public ProductCategory createCategory(CategoryCreateRequestDTO requestDTO) {
         log.info("开始创建商品分类: {}", requestDTO.getCategoryName());
         log.info("父分类ID: {}, 层级: {}, 排序: {}", requestDTO.getParentId(), requestDTO.getLevel(), requestDTO.getSortOrder());
-        log.info("操作人: {}", requestDTO.getUserInfo().getUsername());
+        
+        // 从ThreadLocal中获取当前登录用户信息
+        String username = UserContext.getUsername();
+        log.info("操作人: {}", username);
 
         // 创建分类实体
         ProductCategory productCategory = new ProductCategory();
@@ -40,7 +44,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategory.setIsDelete(0); // 默认未删除
 
         // 设置创建人和更新人
-        String username = requestDTO.getUserInfo().getUsername();
         productCategory.setCreatePin(username);
         productCategory.setUpdatePin(username);
 

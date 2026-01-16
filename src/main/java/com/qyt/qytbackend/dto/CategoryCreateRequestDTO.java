@@ -17,6 +17,4 @@ public class CategoryCreateRequestDTO {
     private Integer level;
     @Schema(description = "排序号")
     private Integer sortOrder;
-    @Schema(description = "用户信息", requiredMode = Schema.RequiredMode.REQUIRED)
-    private UserInfoDTO userInfo;
 }

@@ -1,22 +1,18 @@
 package com.qyt.qytbackend.controller;
 
-import com.qyt.qytbackend.entity.ProductCategory;
-import com.qyt.qytbackend.service.ProductCategoryService;
+import com.qyt.qytbackend.common.annotation.LoginRequired;
+import com.qyt.qytbackend.dto.ApiResponseDTO;
 import com.qyt.qytbackend.dto.CategoryCreateRequestDTO;
 import com.qyt.qytbackend.dto.CategoryPageRequestDTO;
 import com.qyt.qytbackend.dto.CategoryPageResponseDTO;
-import com.qyt.qytbackend.dto.ApiResponseDTO;
+import com.qyt.qytbackend.entity.ProductCategory;
+import com.qyt.qytbackend.service.ProductCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * 商品分类控制器
@@ -38,6 +34,7 @@ public class ProductCategoryController {
      */
     @PostMapping("/create")
     @Operation(summary = "创建商品分类", description = "根据请求参数创建新的商品分类")
+    @LoginRequired
     public ApiResponseDTO<ProductCategory> createCategory(@Parameter(description = "分类创建请求参数") @RequestBody CategoryCreateRequestDTO requestDTO) {
         try {
             // 验证请求参数
@@ -49,9 +46,6 @@ public class ProductCategoryController {
             }
             if (requestDTO.getParentId() == null) {
                 return ApiResponseDTO.error(400, "父分类ID不能为空");
-            }
-            if (requestDTO.getUserInfo() == null || requestDTO.getUserInfo().getUsername() == null) {
-                return ApiResponseDTO.error(400, "用户信息不能为空");
             }
 
             // 创建分类
