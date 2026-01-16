@@ -1,5 +1,7 @@
 package com.qyt.qytbackend.controller;
 
+import com.qyt.qytbackend.common.result.PageResult;
+import com.qyt.qytbackend.entity.ProductInfo;
 import com.qyt.qytbackend.service.ProductInfoService;
 import com.qyt.qytbackend.dto.ProductPublishRequestDTO;
 import com.qyt.qytbackend.dto.ProductPublishResponseDTO;
@@ -9,9 +11,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -61,6 +65,33 @@ public class ProductInfoController {
         } catch (Exception e) {
             log.error("发布商品失败: {}", e.getMessage(), e);
             return ApiResponseDTO.error(500, "发布商品失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 分页查询商品列表
+     *
+     * @param pageNum        页码，默认1
+     * @param pageSize       每页数量，默认10
+     * @param thirdCategoryId 三级分类ID，非必传
+     * @return API响应
+     */
+    @GetMapping("/list")
+    @Operation(summary = "分页查询商品列表", description = "分页查询商品列表，支持按三级分类筛选")
+    public ApiResponseDTO<PageResult<ProductInfo>> getProductList(
+            @Parameter(description = "页码，默认1") @RequestParam(required = false) Integer pageNum,
+            @Parameter(description = "每页数量，默认10") @RequestParam(required = false) Integer pageSize,
+            @Parameter(description = "三级分类ID，非必传") @RequestParam(required = false) Integer thirdCategoryId) {
+        try {
+            log.info("开始分页查询商品列表，页码: {}, 每页数量: {}, 三级分类ID: {}", pageNum, pageSize, thirdCategoryId);
+
+            // 查询商品列表
+            PageResult<ProductInfo> pageResult = productInfoService.getProductPage(pageNum, pageSize, thirdCategoryId);
+
+            return ApiResponseDTO.success(pageResult);
+        } catch (Exception e) {
+            log.error("分页查询商品列表失败: {}", e.getMessage(), e);
+            return ApiResponseDTO.error(500, "分页查询商品列表失败: " + e.getMessage());
         }
     }
 }

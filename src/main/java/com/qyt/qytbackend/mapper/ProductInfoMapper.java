@@ -23,4 +23,20 @@ public interface ProductInfoMapper {
     List<ProductInfo> selectByStatus(@Param("status") Integer status);
 
     List<ProductInfo> selectAll();
+
+    /**
+     * 分页查询商品列表
+     * @param thirdCategoryId 三级分类ID，非必传
+     * @param pageNum 页码
+     * @param pageSize 每页数量
+     * @return 商品列表
+     */
+    List<ProductInfo> selectProductPage(@Param("thirdCategoryId") Integer thirdCategoryId, @Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 查询商品总数
+     * @param thirdCategoryId 三级分类ID，非必传
+     * @return 商品总数
+     */
+    Long selectProductCount(@Param("thirdCategoryId") Integer thirdCategoryId);
 }

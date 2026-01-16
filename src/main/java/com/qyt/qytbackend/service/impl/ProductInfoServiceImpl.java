@@ -1,6 +1,7 @@
 package com.qyt.qytbackend.service.impl;
 
 import com.qyt.qytbackend.entity.ProductInfo;
+import com.qyt.qytbackend.common.result.PageResult;
 import com.qyt.qytbackend.mapper.ProductInfoMapper;
 import com.qyt.qytbackend.service.ProductInfoService;
 import com.qyt.qytbackend.dto.ProductPublishRequestDTO;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 商品信息服务实现类
@@ -80,6 +82,47 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             }
         } catch (Exception e) {
             log.error("发布商品失败: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 分页查询商品列表
+     *
+     * @param pageNum        页码，默认1
+     * @param pageSize       每页数量，默认10
+     * @param thirdCategoryId 三级分类ID，非必传
+     * @return 分页查询结果
+     */
+    @Override
+    public PageResult<ProductInfo> getProductPage(Integer pageNum, Integer pageSize, Integer thirdCategoryId) {
+        try {
+            log.info("开始分页查询商品列表，页码: {}, 每页数量: {}, 三级分类ID: {}", pageNum, pageSize, thirdCategoryId);
+
+            // 设置默认值
+            if (pageNum == null || pageNum <= 0) {
+                pageNum = 1;
+            }
+            if (pageSize == null || pageSize <= 0) {
+                pageSize = 10;
+            }
+
+            // 计算偏移量
+            int offset = (pageNum - 1) * pageSize;
+
+            // 查询商品列表
+            List<ProductInfo> productList = productInfoMapper.selectProductPage(thirdCategoryId, offset, pageSize);
+
+            // 查询商品总数
+            Long total = productInfoMapper.selectProductCount(thirdCategoryId);
+
+            // 构建分页结果
+            PageResult<ProductInfo> pageResult = new PageResult<>(productList, total, pageNum, pageSize);
+
+            log.info("分页查询商品列表完成，共查询到 {} 条数据", total);
+            return pageResult;
+        } catch (Exception e) {
+            log.error("分页查询商品列表失败: {}", e.getMessage(), e);
             throw e;
         }
     }

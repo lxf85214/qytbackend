@@ -129,4 +129,24 @@
     <select id="selectAll" resultMap="ProductInfoResultMap">
         SELECT * FROM product_info WHERE is_delete = 0
     </select>
+
+    <!-- 分页查询商品列表 -->
+    <select id="selectProductPage" parameterType="map" resultMap="ProductInfoResultMap">
+        SELECT * FROM product_info 
+        WHERE status = 1 AND is_delete = 0
+        <if test="thirdCategoryId != null">
+            AND category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
+        </if>
+        ORDER BY RAND()
+        LIMIT #{pageSize,jdbcType=INTEGER} OFFSET #{pageNum,jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询商品总数 -->
+    <select id="selectProductCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM product_info 
+        WHERE status = 1 AND is_delete = 0
+        <if test="thirdCategoryId != null">
+            AND category_third_id = #{thirdCategoryId,jdbcType=INTEGER}
+        </if>
+    </select>
 </mapper>
